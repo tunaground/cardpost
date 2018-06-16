@@ -61,6 +61,7 @@ class Content
     {
         $tempText = preg_split("/(\.dice )(0|-?[1-9][0-9]*)( )(0|-?[1-9][0-9]*)(\.)/", $this->contentString, -1);
         if (preg_match_all("/(\.dice )(0|-?[1-9][0-9]*)( )(0|-?[1-9][0-9]*)(\.)/", $this->contentString, $matches, PREG_SET_ORDER)) {
+            $diceResult = [];
             for ($i = 0; $i < sizeof($matches); $i++) {
                 $diceResult[$i] = mt_rand($matches[$i][2], $matches[$i][4]);
             }

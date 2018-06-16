@@ -11,6 +11,6 @@ class ContentTest extends TestCase
         $content = new Content("test\ntest");
         $content->applyBreak();
         $expect = "test<br />test";
-        $this->assertEquals($expect, $content->toString());
+        $this->assertEquals($expect, $content->__toString());
     }
 }

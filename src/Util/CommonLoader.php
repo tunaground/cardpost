@@ -16,6 +16,11 @@ class CommonLoader extends AbstractLoader
         $this->extension = $extension;
     }
 
+    /**
+     * @param $path
+     * @return mixed
+     * @throws \Exception
+     */
     public function load($path)
     {
         $includePath = sprintf('%s/%s.%s', $this->directory, $path, $this->extension);

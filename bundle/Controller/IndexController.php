@@ -30,7 +30,7 @@ class IndexController extends BaseController
         $cardOrder = 1;
         $this->response->setBody(array_reduce(
             $this->cardService->getCardListByBbsUid($this->request->getUriArguments('bbsUid')),
-            function (string $carry, CardDto $cardDto) use ($cardOrder) {
+            function (string $carry, CardDto $cardDto) use (&$cardOrder) {
                 $postForm = $this->app->get(PostForm::class);
                 $postForm->setBbsUid($cardDto->getBbsUid());
                 $postForm->setCardUid($cardDto->getCardUid());

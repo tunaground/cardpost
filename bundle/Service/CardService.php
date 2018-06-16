@@ -24,8 +24,17 @@ class CardService implements CardServiceInterface
         return $this->cardDao->getCardByCardUid($cardUid);
     }
 
+    /**
+     * @param int $cardUid
+     * @return int
+     * @throws \Exception
+     */
     public function getCardSize(int $cardUid): int
     {
-        return $this->cardDao->getCardSize($cardUid);
+        try {
+            return $this->cardDao->getCardSize($cardUid);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

@@ -2,7 +2,6 @@
 namespace Tunacan\Core;
 
 use Tunacan\Http\Request;
-use Tunacan\Http\Response;
 
 interface RequestHandlerInterface
 {

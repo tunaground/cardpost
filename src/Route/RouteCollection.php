@@ -14,7 +14,7 @@ class RouteCollection implements RouteCollectionInterface
         $this->rewind();
     }
 
-    public function current(): Route
+    public function current(): RouteInterface
     {
         return $this->routeBuilder->build(
             $this->routeArrays[$this->key]

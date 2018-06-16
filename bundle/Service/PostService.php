@@ -29,11 +29,26 @@ class PostService implements PostServiceInterface
         return $this->postDao->getPostWithLimit($cardUid, $start, $count);
     }
 
+    /**
+     * @param int $cardUid
+     * @param int $postOrder
+     * @return PostDto
+     * @throws \Exception
+     */
     public function getPostByPostOrder(int $cardUid, int $postOrder): PostDto
     {
-        return $this->postDao->getPostByPostOrder($cardUid, $postOrder);
+        try {
+            return $this->postDao->getPostByPostOrder($cardUid, $postOrder);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * @param PostDto $postDto
+     * @return null|string
+     * @throws \Exception
+     */
     public function insertPost(PostDto $postDto)
     {
         try {

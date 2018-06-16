@@ -3,14 +3,14 @@ namespace Tunacan\Bundle\DataObject;
 
 use Tunacan\Database\DataSourceInterface;
 use Tunacan\Bundle\Component\Content;
-use Tunacan\Util\QueryLoader;
+use Tunacan\Util\LoaderInterface;
 
 class PostDao
 {
     private $dataSource;
     /**
      * @Inject("database.query.loader")
-     * @var QueryLoader
+     * @var LoaderInterface
      */
     private $queryLoader;
 
@@ -107,6 +107,11 @@ class PostDao
         return null;
     }
 
+    /**
+     * @param PostDto $postDto
+     * @return null|string
+     * @throws \Exception
+     */
     public function InsertPost(PostDto $postDto)
     {
         $postUid = null;
@@ -124,15 +129,15 @@ class PostDao
             $stmt->bindValue(':ip', $postDto->getIp(), \PDO::PARAM_STR);
             $stmt->bindValue(':status', 1, \PDO::PARAM_INT);
             $stmt->execute();
+            $error = $stmt->errorInfo();
+            if ($error[0] !== '00000') {
+                throw new \PDOException($error[0] . ':' . $error[1]);
+            }
             $postUid = $connection->lastInsertId();
         } catch (\Exception $e) {
             throw $e;
         } finally {
             $connection = null;
-        }
-        $error = $stmt->errorInfo();
-        if ($error[0] !== '00000') {
-            throw new \PDOException($error[0] . ':' . $error[1]);
         }
         return $postUid;
     }

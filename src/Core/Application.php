@@ -21,11 +21,19 @@ class Application extends Container
         ContainerInterface $wrapperContainer = null
     ) {
         parent::__construct($definitionSource, $proxyFactory, $wrapperContainer);
-        $this->handler = $this->get(RequestHandlerInterface::class);
+        try {
+            $this->handler = $this->get(RequestHandlerInterface::class);
+        } catch (\Exception $e) {
+            header('HTTP/1.1 500 Internal Server Error');
+        }
     }
 
     public function run()
     {
-        $this->handler->handle($this->get(Request::class));
+        try {
+            $this->handler->handle($this->get(Request::class));
+        } catch (\Exception $e) {
+            header('HTTP/1.1 500 Internal Server Error');
+        }
     }
 }

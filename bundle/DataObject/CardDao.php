@@ -2,14 +2,14 @@
 namespace Tunacan\Bundle\DataObject;
 
 use Tunacan\Database\DataSourceInterface;
-use Tunacan\Util\QueryLoader;
+use Tunacan\Util\LoaderInterface;
 
 class CardDao
 {
     private $dataSource;
     /**
      * @Inject("database.query.loader")
-     * @var QueryLoader
+     * @var LoaderInterface
      */
     private $queryLoader;
 
@@ -58,6 +58,11 @@ class CardDao
         return null;
     }
 
+    /**
+     * @param int $cardUid
+     * @return int
+     * @throws \Exception
+     */
     public function getCardSize(int $cardUid): int
     {
         try {
