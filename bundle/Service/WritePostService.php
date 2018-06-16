@@ -24,6 +24,23 @@ class WritePostService implements WritePostServiceInterface
     }
 
     /**
+     * @param string $content
+     * @throws \Exception
+     */
+    public function checkAbuseRequest(string $content)
+    {
+        if (
+            (time() - $_SESSION['last_content_time']) < 30
+            && $_SESSION['last_content_hash'] == md5($content)
+        ) {
+            throw new \Exception('Deny.');
+        }
+
+        $_SESSION['last_content_time'] = time();
+        $_SESSION['last_content_hash'] = md5($content);
+    }
+
+    /**
      * @param PostDto $postDto
      * @param Console $console
      * @return null|string
@@ -50,11 +67,6 @@ class WritePostService implements WritePostServiceInterface
         } catch (\Exception $e) {
             throw $e;
         }
-    }
-
-    public function getLastPostOrder(int $cardUid)
-    {
-        return $this->postDao->getLastPostOrder($cardUid);
     }
 
     /**
