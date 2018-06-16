@@ -8,6 +8,7 @@ use Tunacan\Bundle\DataObject\CardDto;
 use Tunacan\Bundle\DataObject\PostDto;
 use Tunacan\Bundle\Service\CardServiceInterface;
 use Tunacan\Bundle\Service\FileUploadServiceInterface;
+use Tunacan\Bundle\Service\PostServiceInterface;
 use Tunacan\Bundle\Service\WriteCardServiceInterface;
 use Tunacan\Bundle\Service\WritePostServiceInterface;
 use Tunacan\MVC\BaseController;
@@ -34,6 +35,11 @@ class WriteController extends BaseController
      * @var WriteCardServiceInterface
      */
     private $writeCardService;
+    /**
+     * @Inject
+     * @var PostServiceInterface
+     */
+    private $postService;
 
     public function main()
     {
@@ -54,6 +60,7 @@ class WriteController extends BaseController
         $createdCardDto = $this->cardService->getCardDataOnlyByCardUid($cardUid);
 
         $postDto = new PostDto();
+        $postDto->setOrder(0);
         $postDto->setCardUid($cardUid);
         $postDto->setCreateDate($createdCardDto->getOpenDate());
         $postDto->setBbsUid($this->request->getPostParam('bbs_uid'));
@@ -73,6 +80,9 @@ class WriteController extends BaseController
     public function writePost()
     {
         $postDto = new PostDto();
+        $postDto->setOrder(
+            $this->postService->getLastPostOrder($this->request->getPostParam('card_uid')) + 1
+        );
         $postDto->setCardUid($this->request->getPostParam('card_uid'));
         $postDto->setBbsUid($this->request->getPostParam('bbs_uid'));
         $postDto->setName($this->request->getPostParam('name'));

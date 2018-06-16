@@ -34,9 +34,6 @@ class WritePostService implements WritePostServiceInterface
         try {
             $this->postDto = $postDto;
             $this->console = $console;
-            $postDto->setOrder(
-                $this->postDao->getLastPostOrder($postDto->getCardUid()) + 1
-            );
             if (is_null($postDto->getCreateDate())) {
                 $postDto->setCreateDate($this->dateTimeBuilder->getCurrentDateTime());
             }
