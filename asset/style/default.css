@@ -1,0 +1,430 @@
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/notosanskannada.css);
+
+@font-face {
+    font-family: 'Saitamaar';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Saitamaar'),
+    url(http://keage.sakura.ne.jp/fonts/Saitamaar.eot) format('eot'),
+    url(http://keage.sakura.ne.jp/fonts/Saitamaar.woff) format('woff'),
+    url(http://keage.sakura.ne.jp/fonts/Saitamaar.ttf) format('truetype')
+}
+
+@media screen and (orientation: landscape) and (max-width: 999px) {
+    #menu {
+        left: -180px;
+    }
+}
+
+@media screen and (orientation: landscape) and (min-width: 1000px) {
+    ul.card_head li.title_container {
+        font-size: 40pt !important;
+    }
+
+    ul.card_head li.order {
+        font-size: 140pt !important;
+    }
+
+    div#menu_button {
+        display: none;
+    }
+
+    #menu {
+        left: 0px !important;
+    }
+
+    #card_list_container {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+}
+
+/*@media screen and (orientation: landscape) {*/
+/*div.return_button {*/
+/*min-width: 790px !important;*/
+/*}*/
+
+/*#card_list_container {*/
+/*min-width: 800px !important;*/
+/*}*/
+
+/*article#notice {*/
+/*min-width: 780px !important;*/
+/*}*/
+
+/*section.card {*/
+/*min-width: 800px !important;*/
+/*}*/
+
+/*p#version {*/
+/*min-width: 800px !important;*/
+/*}*/
+/*}*/
+
+@media screen and (orientation: portrait) {
+    #menu {
+        left: -180px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    img {
+        width: 100%;
+    }
+}
+
+body {
+    font-family: 'Nanum Gothic', serif;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.popup_screen {
+    width: 90%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+}
+
+.popup {
+    position: relative;
+    width: 80%;
+}
+
+.popup .title {
+    background-color: rgba(0, 0, 0, .8);
+    box-shadow: 5px 5px 20px -8px rgba(0, 0, 0, .75);
+    color: white;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.popup .message .post {
+    margin-top: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+input[type="text"] {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #c8c8c8;
+    padding: 8px;
+    margin: 4px 0 4px 0;
+    color: gray;
+    border-radius: 3px;
+}
+
+input[type="file"] {
+    width: 100%;
+    height: 35px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 4px 0 4px 0;
+    border: solid 0 gray;
+    color: gray;
+    cursor: pointer;
+    filter: alpha(opacity=0)
+}
+
+input[type="submit"] {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 4px 0 4px 0;
+    border: solid 0 gray;
+    color: gray;
+    border-radius: 3px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 4px 0 4px 0;
+    border: solid 0 gray;
+    color: gray;
+    border-radius: 3px;
+}
+
+#menu {
+    position: fixed;
+    top: 0;
+    width: 180px;
+    height: 100%;
+    background-color: rgba(30, 30, 30, .9);
+}
+
+#menu_button {
+    position: fixed;
+    top: 5px;
+    left: 0px;
+    width: 90px;
+    height: 50px;
+    background-color: rgba(30, 30, 30, .9);
+    font-family: 'Noto Sans Kannada', sans-serif;
+
+    letter-spacing: 8pt;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#menu a {
+    text-decoration: none;
+    color: #fff
+}
+
+#menu li {
+    font-family: 'Noto Sans Kannada', sans-serif;
+    letter-spacing: 8pt;
+    margin-top: 30px;
+    padding-left: 8px
+}
+
+fieldset.search {
+    border: 0;
+    margin: 5px auto;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, .8)
+}
+
+div.return_button {
+    border: 0;
+    margin: 5px auto;
+    padding: 5px;
+    max-width: 1190px;
+    background-color: rgba(255, 255, 255, .7);
+    text-align: center
+}
+
+button {
+    border: 0;
+    background-color: rgba(255, 255, 255, .5);
+    margin-left: 5px
+}
+
+#card_list_container {
+    border-top: 1px solid #c8c8c8;
+    border-bottom: 1px solid #c8c8c8;
+    margin: 60px auto 0px;
+    padding: 5px;
+}
+
+#card_list_container p.title_container {
+    color: #676767;
+}
+
+#card_list_container p.info {
+    color: #676767;
+    font-size: 13px
+}
+
+#card_list_container a {
+    text-decoration: none;
+    color: #4a4a4a
+}
+
+#card_list_container a.order {
+    text-decoration: none;
+    color: #004ed9
+}
+
+li.list_node {
+    box-shadow: 0 0 20px -8px rgba(0, 0, 0, .75);
+    background-color: rgba(255, 255, 255, .7);
+    margin: 5px;
+    padding: 5px;
+    word-break: break-all;
+    text-decoration: none
+}
+
+li.list_node p {
+    margin: 0;
+    padding: 0
+}
+
+#more_list {
+    width: 100%;
+    box-shadow: 0 0 20px -8px rgba(0, 0, 0, .75);
+    background-color: rgba(255, 255, 255, .7);
+    margin: 0px;
+    padding: 5px;
+    word-break: break-all;
+    text-decoration: none
+}
+
+article#notice {
+    border: 1px solid #c8c8c8;
+    margin: 40px auto;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, .7)
+}
+
+section.card {
+    border-top: 5px solid #000;
+    border-bottom: 5px solid #000;
+    margin-top: 40px
+}
+
+ul.card_head {
+    background-color: rgba(255, 255, 255, .8);
+    border-bottom: 2px solid #505050;
+    color: #000
+}
+
+ul.card_head li {
+    line-height: 1.1em
+}
+
+ul.card_head li.order {
+    font-family: 'Hanna', sans-serif;
+    font-size: 20pt;
+    font-weight: bold;
+    line-height: .9em
+}
+
+ul.card_head li.card_uid {
+    font-size: 11pt;
+    color: #646464
+}
+
+ul.card_head li.owner {
+    font-size: 16pt;
+    color: #646464;
+    font-weight: 600
+}
+
+ul.card_head li.title_container {
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size: 20pt;
+}
+
+ul.card_head li.title_container a {
+    text-decoration: none;
+    color: #000
+}
+
+ul.card_head li.open_time, li.refresh_time {
+    font-size: 10pt;
+    color: #646464
+}
+
+fieldset.post_form_container, fieldset#card_form_container {
+    border-top: 2px solid #000;
+    padding: 5px;
+    border: 0;
+    background-color: rgba(0, 0, 0, .5);
+    text-align: center;
+    color: #fff;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+div.card_end {
+    background-color: rgba(80, 80, 80, .7);
+    color: #fff;
+    text-align: center
+}
+
+.more_post {
+    display: list-item;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .7);
+    box-shadow: 5px 5px 20px -8px rgba(0, 0, 0, .75);
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.post {
+    list-style: none;
+    background-color: rgba(255, 255, 255, .7);
+    box-shadow: 5px 5px 20px -8px rgba(0, 0, 0, .75);
+    margin: 6px;
+    padding: 5px;
+    word-break: break-all;
+    text-decoration: none;
+}
+
+li.post p {
+    margin: 0;
+    padding: 0
+}
+
+li.post span.order {
+    font-weight: bold;
+    color: #004ed9
+}
+
+li.post span.user_id {
+    font-size: 10pt
+}
+
+li.post span.name {
+    color: #282828
+}
+
+li.post p.time {
+    margin-left: 10px;
+    font-size: 10pt;
+    color: #505050
+}
+
+li.post p.content {
+    margin-left: 10px;
+    color: #505050;
+    line-height: 1.4em;
+}
+
+li.post p.content span.dice {
+    font-weight: bold;
+    color: rgb(192, 22, 35);
+    border-bottom: 1px dashed rgb(192, 22, 35);
+}
+
+p.mona {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    font-family: 'Saitamaar';
+    line-height: 1.1em;
+    background-color: rgba(255, 255, 255, .7)
+}
+
+p#version {
+    text-align: right;
+    padding-right: 20px;
+    font-size: 14px;
+    margin: 10px auto;
+    color: #787878
+}
+
+iframe.youtube {
+    width: 500px;
+    height: 300px
+}
+
+img.thumbnail {
+    max-width: 200px;
+    max-height: 200px;
+}

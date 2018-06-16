@@ -1,0 +1,11 @@
+<form class="forms" enctype="multipart/form-data" action="/post" method="POST">
+    <input type="hidden" name="type" value="card"/>
+    <input type="hidden" name="bbs_uid" value="{bbsUid}"/>
+    <input type="text" name="title" placeholder="제목"/>
+    <input type="text" name="name" placeholder="나메"/>
+    <input type="text" name="console" placeholder="콘솔"/>
+    <input type="text" name="password" placeholder="카드 관리용 비밀번호"/>
+    <textarea name="content" placeholder="내용" spellcheck="false" required></textarea>
+    <input type="file" name="image"/>
+    <input type="submit" class="submit_button" value="마솝"/>
+</form>

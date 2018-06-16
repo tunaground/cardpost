@@ -97,7 +97,7 @@ class CardDto
         $this->ownerOnly = $ownerOnly;
     }
 
-    public function isStatus(): bool
+    public function getStatus(): bool
     {
         return $this->status;
     }

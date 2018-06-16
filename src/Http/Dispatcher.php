@@ -33,6 +33,7 @@ class Dispatcher implements RequestHandlerInterface
         $route = $this->router->getRoute($request);
         if ($route->isRedirect()) {
             header("Location: {$route->getRedirect()}");
+            exit;
         } else {
             $controller = $this->delegateContainer->get($route->getControllerFqn());
             $method = $route->getMethod();

@@ -7,7 +7,9 @@ interface CardServiceInterface
 {
     public function getCardListByBbsUid(string $bbsUid): array;
 
-    public function getCardListByCardUid(int $cardUid): CardDto;
+    public function getCardByCardUid(int $cardUid): CardDto;
+
+    public function getCardDataOnlyByCardUid(int $cardUid): CardDto;
 
     public function getCardSize(int $cardUid): int;
 }

@@ -79,12 +79,12 @@ class PostDto
         $this->userId = $userId;
     }
 
-    public function getCreatedate(): \DateTime
+    public function getCreateDate(): ?\DateTime
     {
         return $this->create_date;
     }
 
-    public function setCreatedate(\DateTime $create_date)
+    public function setCreateDate(\DateTime $create_date)
     {
         $this->create_date = $create_date;
     }

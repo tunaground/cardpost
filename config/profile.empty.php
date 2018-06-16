@@ -49,6 +49,6 @@ return [
     // Services
     \Tunacan\Bundle\Service\CardServiceInterface::class => \DI\get(\Tunacan\Bundle\Service\CardService::class),
     \Tunacan\Bundle\Service\PostServiceInterface::class => \DI\get(\Tunacan\Bundle\Service\PostService::class),
-    \Tunacan\Bundle\Service\WriteServiceInterface::class => \DI\get(\Tunacan\Bundle\Service\WriteService::class),
+    \Tunacan\Bundle\Service\WritePostServiceInterface::class => \DI\get(\Tunacan\Bundle\Service\WritePostService::class),
     \Tunacan\Bundle\Service\FileUploadServiceInterface::class => \DI\get(\Tunacan\Bundle\Service\FileUploadService::class)
 ];

@@ -32,7 +32,7 @@ class PostDao
             throw new \PDOException($error);
         }
         if ($stmt->rowCount() > 0) {
-            return $stmt->fetchColumn();
+            return ($stmt->fetchColumn())?: 0;
         }
         return 0;
     }
@@ -123,7 +123,7 @@ class PostDao
             $stmt->bindValue(':post_order', $postDto->getOrder(), \PDO::PARAM_INT);
             $stmt->bindValue(':name', $postDto->getName(), \PDO::PARAM_STR);
             $stmt->bindValue(':user_id', $postDto->getUserId(), \PDO::PARAM_STR);
-            $stmt->bindValue(':create_date', $postDto->getCreatedate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            $stmt->bindValue(':create_date', $postDto->getCreateDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
             $stmt->bindValue(':content', $postDto->getContent(), \PDO::PARAM_STR);
             $stmt->bindValue(':image', $postDto->getImage(), \PDO::PARAM_STR);
             $stmt->bindValue(':ip', $postDto->getIp(), \PDO::PARAM_STR);
@@ -151,7 +151,7 @@ class PostDao
         $postDto->setOrder($postData['post_order']);
         $postDto->setName($postData['name']);
         $postDto->setUserId($postData['user_id']);
-        $postDto->setCreatedate(new \DateTime($postData['create_date']));
+        $postDto->setCreateDate(new \DateTime($postData['create_date']));
         $postDto->setContent(new Content($postData['content']));
         $postDto->setImage($postData['image']);
         $postDto->setIp($postData['ip']);

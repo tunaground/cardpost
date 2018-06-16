@@ -1,6 +1,5 @@
 <?php
-
-namespace Tunacan\Bundle\Component;
+namespace Tunacan\Bundle\Component\UIComponent;
 
 use Tunacan\Bundle\DataObject\CardDto;
 use Tunacan\MVC\AbstractComponent;
@@ -20,6 +19,18 @@ class Card extends AbstractComponent
     private $postList;
     /** @var PostForm */
     private $postForm;
+
+    public function getObject()
+    {
+        $card = new Card($this->loader, $this->parser);
+        $card->setDateFormat($this->dateFormat);
+        return $card;
+    }
+
+    public function setDateFormat(string $dateFormat)
+    {
+        $this->dateFormat = $dateFormat;
+    }
 
     public function setOrder(int $order)
     {
@@ -43,7 +54,7 @@ class Card extends AbstractComponent
 
     public function __toString()
     {
-        return $this->parser->parse($this->htmlTemplate, [
+        return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
             'order' => $this->order,
             'cardUid' => $this->cardDto->getCardUid(),
             'owner' => $this->cardDto->getOwner(),

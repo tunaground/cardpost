@@ -19,10 +19,16 @@ class CardService implements CardServiceInterface
         return $this->cardDao->getCardListByBbsUid($bbsUid);
     }
 
-    public function getCardListByCardUid(int $cardUid): CardDto
+    public function getCardByCardUid(int $cardUid): CardDto
     {
         return $this->cardDao->getCardByCardUid($cardUid);
     }
+
+    public function getCardDataOnlyByCardUid(int $cardUid): CardDto
+    {
+        return $this->cardDao->getCardDataOnlyByCardUid($cardUid);
+    }
+
 
     /**
      * @param int $cardUid

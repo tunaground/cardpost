@@ -9,6 +9,7 @@ abstract class AbstractComponent implements ComponentInterface
 {
     protected $htmlTemplateName;
     protected $htmlTemplate;
+    protected $loader;
     protected $parser;
 
     /**
@@ -18,7 +19,7 @@ abstract class AbstractComponent implements ComponentInterface
      */
     public function __construct(LoaderInterface $loader, ContextParser $parser)
     {
+        $this->loader = $loader;
         $this->parser = $parser;
-        $this->htmlTemplate = $loader->load($this->htmlTemplateName);
     }
 }
