@@ -1,0 +1,28 @@
+{
+    "name": "tunaground/tunacan",
+    "description": "Modern web MVC framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tunarider",
+            "email": "admin@tunaground.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Tunacan\\": "src/",
+            "Tunacan\\Bundle\\": "bundle/"
+        }
+    },
+    "require": {
+        "monolog/monolog": "^1.23",
+        "psr/log": "^1.0",
+        "php-di/php-di": "^6.0",
+        "aws/aws-sdk-php": "^3.56",
+        "doctrine/annotations": "^1.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.1"
+    }
+}

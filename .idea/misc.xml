@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FUSUsageTrigger">
+    <session id="-664664093">
+      <usages-collector id="statistics.php.composer.actions">
+        <counts>
+          <entry key="addDependencyDialog_from_MainMenu" value="1" />
+          <entry key="clear-cache_from_MainMenu" value="1" />
+          <entry key="diagnose_from_MainMenu" value="1" />
+          <entry key="init_from_MainMenu" value="1" />
+          <entry key="install_from_MainMenu" value="3" />
+          <entry key="self-update_from_MainMenu" value="1" />
+          <entry key="status_from_MainMenu" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.php.composer.command.options" />
+    </session>
+  </component>
+</project>
