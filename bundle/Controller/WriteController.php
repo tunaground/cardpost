@@ -104,7 +104,7 @@ class WriteController extends BaseController
             $postDto->setCardUid($this->request->getPostParam('card_uid'));
             $postDto->setBbsUid($this->request->getPostParam('bbs_uid'));
             $postDto->setName($this->request->getPostParam('name'));
-            $postDto->setContent(new Content($this->request->getPostParam('content')));
+            $postDto->setContent(new Content(htmlspecialchars($this->request->getPostParam('content'))));
             $postDto->setImage($this->request->getPostParam('image'));
             $postDto->setIp($this->request->getServerInfo('REMOTE_ADDR'));
             if ($this->request->getFile('image')['size'] > 0) {

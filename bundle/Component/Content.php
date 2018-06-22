@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\Component;
 
 class Content
@@ -76,6 +77,20 @@ class Content
     public function makeAsciiArtContent()
     {
         $this->contentString = sprintf('<p class="mona">%s</p>', $this->contentString);
+    }
+
+    public function applyAnchor($bbsUid, $cardUid): self
+    {
+        $this->contentString = preg_replace_callback(
+            "/([a-z]*)&gt;([0-9]*)&gt;([0-9]*)-?([0-9]*)/",
+            function ($matches) use ($bbsUid, $cardUid) {
+                $bbsUid = ($matches[1]) ?: $bbsUid;
+                $cardUid = ($matches[2]) ?: $cardUid;
+                $startPostUid = $matches[3];
+                $endPostUid = ($matches[4]) ?: $startPostUid;
+                return "<a href='/trace/{$bbsUid}/{$cardUid}/{$startPostUid}/{$endPostUid}'>{$matches[0]}</a>";
+            }, $this->contentString);
+        return $this;
     }
 
     public function getLength()

@@ -40,7 +40,9 @@ class Post extends AbstractComponent
             'name' => $this->postDto->getName(),
             'userId' => $this->postDto->getUserId(),
             'time' => $this->postDto->getCreateDate()->format($this->dateFormat),
-            'content' => $this->postDto->getContent()->__toString(),
+            'content' => $this->postDto->getContent()
+                ->applyAnchor($this->postDto->getBbsUid(), $this->postDto->getCardUid())
+                ->__toString(),
             'image' => $this->getImageWithTag()
         ]);
     }

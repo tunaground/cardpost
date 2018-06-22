@@ -25,6 +25,7 @@ class Application extends Container
             $this->handler = $this->get(RequestHandlerInterface::class);
         } catch (\Exception $e) {
             header('HTTP/1.1 500 Internal Server Error');
+            echo "에러 발생({$e->getMessage()})";
         }
     }
 
@@ -34,6 +35,7 @@ class Application extends Container
             $this->handler->handle($this->get(Request::class));
         } catch (\Exception $e) {
             header('HTTP/1.1 500 Internal Server Error');
+            echo "에러 발생({$e->getMessage()})";
         }
     }
 }
