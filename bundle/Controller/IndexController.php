@@ -39,7 +39,14 @@ class IndexController extends BaseController
                 $card->setOrder($cardOrder++);
                 $card->setCardDto($cardDto);
                 $card->setPostList(array_reduce(
-                    $this->postService->getPostByCardUid($cardDto->getCardUid()),
+                    array_merge(
+                        $this->postService->getPostWithLimit($cardDto->getCardUid(),0,1),
+                        $this->postService->getPostWithLimit(
+                            $cardDto->getCardUid(),
+                            ($cardDto->getSize() < 16)? 1 : $cardDto->getSize() - 15,
+                            ($cardDto->getSize() < 16)? $cardDto->getSize() : 15
+                        )
+                    ),
                     function (array $postList, PostDto $postDto) {
                         $post = $this->app->get(Post::class)->getObject();
                         $post->setPostDto($postDto);
