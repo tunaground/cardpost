@@ -23,7 +23,7 @@ class Route implements RouteInterface
     /**
      * @param string $path
      */
-    public function setPath(string $path = null): void
+    public function setPath($path = null): void
     {
         $this->path = $path;
     }
@@ -114,9 +114,23 @@ class Route implements RouteInterface
     }
 
     public function match(Request $request) {
-        $connectPath = preg_replace('/[\/]+/', '/', $request->getServerInfo('REQUEST_URI'));
-        $explodedRoutePath = explode('/', $this->path);
-        $explodedConnectPath = explode('/', $connectPath);
+        $explodedConnectPath = explode(
+            '/',
+            preg_replace('/[\/]+/', '/', $request->getServerInfo('REQUEST_URI'))
+        );
+        if (is_array($this->path)) {
+            return array_reduce($this->path, function ($carry, $path) use ($explodedConnectPath) {
+                $explodedRoutePath = explode('/', $path);
+                return $carry || $this->compare($explodedRoutePath, $explodedConnectPath);
+            }, false);
+        } else {
+            $explodedRoutePath = explode('/', $this->path);
+            return $this->compare($explodedRoutePath, $explodedConnectPath);
+        }
+    }
+
+    private function compare(array $explodedRoutePath, array $explodedConnectPath)
+    {
         if (sizeof($explodedRoutePath) != sizeof($explodedConnectPath)) {
             return false;
         }
