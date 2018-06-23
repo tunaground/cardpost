@@ -14,12 +14,17 @@ class DateTimeBuilder
      */
     private $defaultTimezone;
 
+    public function getCurrentUtcDateTime(): \DateTime
+    {
+        return new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+
     public function getCurrentDateTime(): \DateTime
     {
         return new \DateTime('now', $this->getUserTimezone());
     }
 
-    private function getUserTimezone(): \DateTimeZone
+    public function getUserTimezone(): \DateTimeZone
     {
         try {
             return new \DateTimeZone($this->getUserTimezoneString());

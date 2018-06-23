@@ -2,6 +2,7 @@
 namespace Tunacan\Bundle\Component\UIComponent;
 
 use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\MVC\AbstractComponent;
 
 class Post extends AbstractComponent
@@ -12,6 +13,11 @@ class Post extends AbstractComponent
      * @var string
      */
     private $dateFormat;
+    /**
+     * @Inject
+     * @var DateTimeBuilder
+     */
+    private $dateTimeBuilder;
     /** @var PostDto */
     private $postDto;
 
@@ -19,12 +25,17 @@ class Post extends AbstractComponent
     {
         $post = new Post($this->loader, $this->parser);
         $post->setDateFormat($this->dateFormat);
+        $post->setDateTimeBuilder($this->dateTimeBuilder);
         return $post;
     }
 
     public function setDateFormat(string $dateFormat)
     {
         $this->dateFormat = $dateFormat;
+    }
+
+    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder) {
+        $this->dateTimeBuilder = $dateTimeBuilder;
     }
 
     public function setPostDto(PostDto $postDto)
@@ -39,7 +50,9 @@ class Post extends AbstractComponent
             'order' => $this->postDto->getOrder(),
             'name' => $this->postDto->getName(),
             'userId' => $this->postDto->getUserId(),
-            'time' => $this->postDto->getCreateDate()->format($this->dateFormat),
+            'time' => $this->postDto->getCreateDate()
+                ->setTimezone($this->dateTimeBuilder->getUserTimezone())
+                ->format($this->dateFormat),
             'content' => $this->postDto->getContent()
                 ->applyAnchor($this->postDto->getBbsUid(), $this->postDto->getCardUid())
                 ->__toString(),

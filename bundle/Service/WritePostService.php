@@ -52,7 +52,7 @@ class WritePostService implements WritePostServiceInterface
             $this->postDto = $postDto;
             $this->console = $console;
             if (is_null($postDto->getCreateDate())) {
-                $postDto->setCreateDate($this->dateTimeBuilder->getCurrentDateTime());
+                $postDto->setCreateDate($this->dateTimeBuilder->getCurrentUtcDateTime());
             }
             $postDto->setUserId(
                 $this->encryptor->makeTrip(

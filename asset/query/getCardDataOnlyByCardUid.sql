@@ -8,3 +8,4 @@ select	card_uid,
 		dead,
 		status
 from    card
+where   card_uid = :card_uid

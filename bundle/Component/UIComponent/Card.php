@@ -2,6 +2,7 @@
 namespace Tunacan\Bundle\Component\UIComponent;
 
 use Tunacan\Bundle\DataObject\CardDto;
+use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\MVC\AbstractComponent;
 
 class Card extends AbstractComponent
@@ -12,6 +13,11 @@ class Card extends AbstractComponent
      * @var string
      */
     private $dateFormat;
+    /**
+     * @Inject
+     * @var DateTimeBuilder
+     */
+    private $dateTimeBuilder;
     private $order;
     /** @var CardDto */
     private $cardDto;
@@ -24,12 +30,17 @@ class Card extends AbstractComponent
     {
         $card = new Card($this->loader, $this->parser);
         $card->setDateFormat($this->dateFormat);
+        $card->setDateTimeBuilder($this->dateTimeBuilder);
         return $card;
     }
 
     public function setDateFormat(string $dateFormat)
     {
         $this->dateFormat = $dateFormat;
+    }
+
+    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder) {
+        $this->dateTimeBuilder = $dateTimeBuilder;
     }
 
     public function setOrder(int $order)
@@ -60,8 +71,12 @@ class Card extends AbstractComponent
             'owner' => $this->cardDto->getOwner(),
             'title' => $this->cardDto->getTitle(),
             'size' => $this->cardDto->getSize() - 1,
-            'openTime' => $this->cardDto->getOpenDate()->format($this->dateFormat),
-            'refreshTime' => $this->cardDto->getRefreshDate()->format($this->dateFormat),
+            'openTime' => $this->cardDto->getOpenDate()
+                ->setTimezone($this->dateTimeBuilder->getUserTimezone())
+                ->format($this->dateFormat),
+            'refreshTime' => $this->cardDto->getRefreshDate()
+                ->setTimezone($this->dateTimeBuilder->getUserTimezone())
+                ->format($this->dateFormat),
             'postList' => array_reduce($this->postList, function (string $carry, Post $post) {
                 return $carry . $post->__toString();
             }, ''),

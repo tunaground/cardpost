@@ -28,7 +28,7 @@ class WriteCardService
         try {
             $this->validateData($cardDto);
             $cardDto->setPassword(hash('sha256', $cardDto->getPassword()));
-            $dateTimeNow = $this->dateTimeBuilder->getCurrentDateTime();
+            $dateTimeNow = $this->dateTimeBuilder->getCurrentUtcDateTime();
             $cardDto->setOpenDate($dateTimeNow);
             $cardDto->setRefreshDate($dateTimeNow);
             return $this->cardDao->insertCard($cardDto);
