@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `cardposti` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `cardposti`;
 -- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cardposti
@@ -29,7 +27,7 @@ CREATE TABLE `card` (
   `bbs_uid` varchar(10) NOT NULL,
   `title` varchar(50) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `open_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `open_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `refresh_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `dead` tinyint(4) NOT NULL DEFAULT '0',
   `owner_only` tinyint(4) NOT NULL DEFAULT '0',
@@ -48,7 +46,7 @@ CREATE TABLE `card` (
 
 LOCK TABLES `card` WRITE;
 /*!40000 ALTER TABLE `card` DISABLE KEYS */;
-INSERT INTO `card` VALUES (1,'tuna','Hello','9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08','2018-06-08 13:32:26','2018-06-08 13:32:26',0,0,001);
+INSERT INTO `card` VALUES (1,'tuna','Hello','9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08','2018-06-23 04:45:34','2018-06-23 06:03:56',0,0,001);
 /*!40000 ALTER TABLE `card` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,6 +86,30 @@ LOCK TABLES `post` WRITE;
 INSERT INTO `post` VALUES (1,1,'tuna',0,'익명의 참치 씨','admin','2018-06-08 15:09:47','Hi!',NULL,'127.0.0.0.1',001);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_card_refresh
+	AFTER INSERT
+	ON post
+	FOR EACH ROW
+
+	BEGIN
+		UPDATE card
+		SET refresh_date = NEW.create_date
+		WHERE card_uid = NEW.card_uid;
+	END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -98,4 +120,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-09  0:14:03
+-- Dump completed on 2018-06-23 15:36:55
