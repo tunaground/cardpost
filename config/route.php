@@ -15,7 +15,6 @@ return [
     [
         'path' => [
             '/trace/{bbsUid}/{cardUid}',
-            '/trace/{bbsUid}/{cardUid}/recent',
             '/trace/{bbsUid}/{cardUid}/{startPostUid}',
             '/trace/{bbsUid}/{cardUid}/{startPostUid}/{endPostUid}'
         ],

@@ -48,7 +48,7 @@ class Request
         $this->uriArguments[$key] = $value;
     }
 
-    public function getUriArguments(string $key): string
+    public function getUriArguments(string $key): ?string
     {
         return $this->uriArguments[$key];
     }

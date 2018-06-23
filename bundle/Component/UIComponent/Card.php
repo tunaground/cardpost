@@ -67,6 +67,7 @@ class Card extends AbstractComponent
     {
         return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
             'order' => $this->order,
+            'bbsUid' => $this->cardDto->getBbsUid(),
             'cardUid' => $this->cardDto->getCardUid(),
             'owner' => $this->cardDto->getOwner(),
             'title' => $this->cardDto->getTitle(),

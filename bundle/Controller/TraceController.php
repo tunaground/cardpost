@@ -36,7 +36,10 @@ class TraceController extends BaseController
         $card->setOrder(0);
         $card->setCardDto($cardDto);
         $card->setPostList(array_reduce(
-            $this->postService->getPostByCardUid($cardDto->getCardUid()),
+            array_merge(
+                $this->postService->getPostWithLimit($cardDto->getCardUid(),0,1),
+                $this->getPostList($cardDto)
+            ),
             function (array $postList, PostDto $postDto) {
                 $post = $this->app->get(Post::class)->getObject();
                 $post->setPostDto($postDto);
@@ -47,6 +50,30 @@ class TraceController extends BaseController
         $body .= $card->__toString();
         $this->response->setBody($body);
         return $this->response;
+    }
+
+    private function getPostList(CardDto $cardDto): array
+    {
+        $startPostUid = $this->request->getUriArguments('startPostUid');
+        $endPostUid = $this->request->getUriArguments('endPostUid');
+        $postLimitStart = 1;
+        $postLimitEnd = $cardDto->getSize() - 1;
+        if ($startPostUid === 'recent') {
+            $postLimitStart = ($cardDto->getSize() < 16)? 1 : $cardDto->getSize() - 15;
+            $postLimitEnd = ($cardDto->getSize() < 16)? $cardDto->getSize() : 15;
+        }
+        if (is_numeric($startPostUid)) {
+            $postLimitStart = $startPostUid;
+            $postLimitEnd = 1;
+        }
+        if (is_numeric($endPostUid)) {
+            $postLimitEnd = $endPostUid - $startPostUid + 1;
+        }
+        return $this->postService->getPostWithLimit(
+            $cardDto->getCardUid(),
+            $postLimitStart,
+            $postLimitEnd
+        );
     }
 }
 
