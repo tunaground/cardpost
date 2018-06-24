@@ -11,6 +11,11 @@ use Tunacan\Bundle\Util\Encryptor;
 
 class WritePostService implements WritePostServiceInterface
 {
+    /**
+     * @Inject("bbs.default.username")
+     * @var string
+     */
+    private $defaultName;
     private $encryptor;
     private $dateTimeBuilder;
     /** @var PostDao */
@@ -76,9 +81,9 @@ class WritePostService implements WritePostServiceInterface
      */
     private function makeName($name)
     {
-        $name = ($name == '') ? 'noname' : $name;
+        $name = ($name == '') ? $this->defaultName : $name;
         if (preg_match("/([^\#]*)\#(.+)/", $name, $match)) {
-            $match[1] = ($match[1] == '') ? 'noname' : $match[1];
+            $match[1] = ($match[1] == '') ? $this->defaultName : $match[1];
             $name = $match[1] . "<b>◆" . $this->encryptor->makeTrip($match[2]) . "</b>";
         }
         if (mb_strlen($name, 'utf-8') > 60) {
