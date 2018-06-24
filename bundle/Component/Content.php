@@ -32,6 +32,11 @@ class Content
         $this->contentString = str_replace(PHP_EOL, '<br />', $this->contentString);
     }
 
+    public function applyMonaTagAll()
+    {
+        $this->contentString = "<p class='mona'>{$this->contentString}</p>";
+    }
+
     public function applyMonaTag()
     {
         $this->contentString = preg_replace("/(\.aa)/", '<p class="mona">', $this->contentString);

@@ -70,6 +70,8 @@ class WritePostService implements WritePostServiceInterface
     }
 
     /**
+     * @param $name
+     * @return string
      * @throws \Exception
      */
     private function makeName($name)
@@ -86,6 +88,9 @@ class WritePostService implements WritePostServiceInterface
     }
 
     /**
+     * @param Content $content
+     * @param Console $console
+     * @return Content
      * @throws \Exception
      */
     private function makeContent(Content $content, Console $console)
@@ -96,7 +101,7 @@ class WritePostService implements WritePostServiceInterface
             $content->applyBreak();
         }
         if ($console->hasAaConsole()) {
-            $content = '<p class="mona">' . $content . '</p>';
+            $content->applyMonaTagAll();
         }
         if ($content->getLength() > 20000) {
             throw new \Exception('Content is too long.');
