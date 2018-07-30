@@ -27,7 +27,7 @@ class IndexController extends BaseController
 
     public function index()
     {
-        $body = '<head><link rel="stylesheet" type="text/css" href="http://public.tunaground.net/data/default.css"/></head>';
+        $body = '<head><script src="/js/index.js"></script><link rel="stylesheet" type="text/css" href="http://public.tunaground.net/data/default.css"/></head>';
         $cardOrder = 1;
         $body .= array_reduce(
             $this->cardService->getCardListByBbsUid($this->request->getUriArguments('bbsUid')),

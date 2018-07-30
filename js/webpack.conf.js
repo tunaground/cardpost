@@ -1,30 +1,19 @@
 const webpack = require('webpack');
+const path = require('path');
 module.exports = {
-    mode: 'development',
-    entry: {
-        index: './src/index.js',
-    },
+	mode: 'development',
+	entry: {
+		index: ['./src/index.js']
+	},
     output: {
-        path: './dist',
+        path: path.resolve(__dirname, '../public/js'),
         filename: '[name].js',
-        publicPath: '/',
+        publicPath: '/js',
     },
     module: {
         rules: [{
             test: /\.js$/,
             loader: 'babel-loader',
-            options: {
-                presets: [
-                    [
-                        'env', {
-                        targets: {
-                            node: 'current'
-                        },
-                        modules: 'false'
-                    }
-                    ],
-                ],
-            },
             exclude: ['/node_modules'],
         }],
     },

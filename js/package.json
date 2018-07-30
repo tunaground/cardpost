@@ -2,10 +2,9 @@
   "name": "cardpost",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node ./node_modules/webpack/bin/webpack.js"
+    "build": "node ./node_modules/webpack/bin/webpack.js --config ./webpack.conf.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +23,7 @@
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
+    "babel-core": "^6.26.3",
     "jquery": "^3.3.1",
     "ramda": "^0.25.0"
   }

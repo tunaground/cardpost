@@ -16,4 +16,10 @@
       <usages-collector id="statistics.php.composer.command.options" />
     </session>
   </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="WebPackConfiguration">
+    <option name="path" value="$PROJECT_DIR$/asset/js/webpack.conf.js" />
+  </component>
 </project>
