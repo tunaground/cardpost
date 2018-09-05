@@ -5,6 +5,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Tunacan\Core\RequestHandlerInterface;
 use Tunacan\Route\RouterInterface;
+use Tunacan\Util\PageResolver;
 
 class Dispatcher implements RequestHandlerInterface
 {
@@ -20,15 +21,18 @@ class Dispatcher implements RequestHandlerInterface
      * @var LoggerInterface
      */
     private $logger;
+    /** @var PageResolver $resolver */
+    private $resolver;
 
-    public function __construct(ContainerInterface $container, RouterInterface $router, LoggerInterface $logger = null)
+    public function __construct(ContainerInterface $container, RouterInterface $router, PageResolver $resolver, LoggerInterface $logger = null)
     {
         $this->delegateContainer = $container;
         $this->router = $router;
+        $this->resolver = $resolver;
         $this->logger = $logger;
     }
 
-    public function handle(Request $request)
+    public function handle(Request $request, Response $response)
     {
         $route = $this->router->getRoute($request);
         if ($route->isRedirect()) {
@@ -38,9 +42,9 @@ class Dispatcher implements RequestHandlerInterface
             $controller = $this->delegateContainer->get($route->getControllerFqn());
             $method = $route->getMethod();
             $request->addUriArgumentsList($route->getArguments());
-            /** @var Response $response */
-            $response = $controller->$method();
+            $page = $controller->$method();
             $response->send();
+            echo $this->resolver->resolve($page, $response);
         }
     }
 }

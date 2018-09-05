@@ -27,9 +27,15 @@ class IndexController extends BaseController
 
     public function index()
     {
-        $body = '<head><script src="/js/index.js"></script><link rel="stylesheet" type="text/css" href="http://public.tunaground.net/data/default.css"/></head>';
+        $this->response->addAttribute('card_group', $this->getCardGroup());
+        $this->response->addAttribute('card_form', $this->getCardForm());
+        return 'index';
+    }
+
+    private function getCardGroup()
+    {
         $cardOrder = 1;
-        $body .= array_reduce(
+        return array_reduce(
             $this->cardService->getCardListByBbsUid($this->request->getUriArguments('bbsUid')),
             function (string $carry, CardDto $cardDto) use (&$cardOrder) {
                 $postForm = $this->app->get(PostForm::class)->getObject();
@@ -40,11 +46,11 @@ class IndexController extends BaseController
                 $card->setCardDto($cardDto);
                 $card->setPostList(array_reduce(
                     array_merge(
-                        $this->postService->getPostWithLimit($cardDto->getCardUid(),0,1),
+                        $this->postService->getPostWithLimit($cardDto->getCardUid(), 0, 1),
                         $this->postService->getPostWithLimit(
                             $cardDto->getCardUid(),
-                            ($cardDto->getSize() < 16)? 1 : $cardDto->getSize() - 15,
-                            ($cardDto->getSize() < 16)? $cardDto->getSize() : 15
+                            ($cardDto->getSize() < 16) ? 1 : $cardDto->getSize() - 15,
+                            ($cardDto->getSize() < 16) ? $cardDto->getSize() : 15
                         )
                     ),
                     function (array $postList, PostDto $postDto) {
@@ -56,11 +62,13 @@ class IndexController extends BaseController
                 $card->setPostForm($postForm);
                 return $carry . $card->__toString();
             }, '');
+    }
+
+    private function getCardForm()
+    {
         $cardForm = $this->app->get(CardForm::class)->getObject();
         $cardForm->setBbsUid($this->request->getUriArguments('bbsUid'));
-        $body .= $cardForm;
-        $this->response->setBody($body);
-        return $this->response;
+        return $cardForm;
     }
 }
 

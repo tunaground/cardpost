@@ -25,5 +25,6 @@ return [
         'path' => '/post',
         'controller' => Controller\WriteController::class,
         'method' => 'main'
-    ]
+    ],
+
 ];

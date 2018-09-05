@@ -6,6 +6,7 @@ use DI\Definition\Source\MutableDefinitionSource;
 use DI\Proxy\ProxyFactory;
 use Psr\Container\ContainerInterface;
 use Tunacan\Http\Request;
+use Tunacan\Http\Response;
 
 class Application extends Container
 {
@@ -32,7 +33,7 @@ class Application extends Container
     public function run()
     {
         try {
-            $this->handler->handle($this->get(Request::class));
+            $this->handler->handle($this->get(Request::class), $this->get(Response::class));
         } catch (\Exception $e) {
             header('HTTP/1.1 500 Internal Server Error');
             echo "에러 발생({$e->getMessage()})";

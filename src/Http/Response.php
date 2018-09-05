@@ -35,10 +35,15 @@ class Response
         $this->attribute[$key] = $value;
     }
 
+    public function getAttributeList(): array
+    {
+        return $this->attribute;
+    }
+
     public function send()
     {
         $this->applyHeader();
-        $this->publishBody();
+//        $this->publishBody();
     }
 
     private function applyHeader()

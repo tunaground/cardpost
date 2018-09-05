@@ -29,6 +29,12 @@ return [
         ->method('setDirectory', \DI\get('view.template.path'))
         ->method('setExtension', 'html'),
 
+    'view.page.path' => __DIR__ . '/../asset/page',
+    'view.page.loader' => \DI\autowire(\Tunacan\Util\CommonLoader::class)
+        ->constructor(new \Tunacan\Util\FileReader())
+        ->method('setDirectory', \DI\get('view.page.path'))
+        ->method('setExtension', 'html'),
+
     'server.remote.addr' => $_SERVER['REMOTE_ADDR'],
     'server.timezone' => 'Asia/Seoul',
 
