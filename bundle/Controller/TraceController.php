@@ -27,7 +27,12 @@ class TraceController extends BaseController
 
     public function index()
     {
-        $body = '<head><link rel="stylesheet" type="text/css" href="http://public.tunaground.net/data/default.css"/></head>';
+        $this->response->addAttribute('card_section', $this->getCardSection());
+        return 'trace';
+    }
+
+    private function getCardSection()
+    {
         $cardDto = $this->cardService->getCardByCardUid($this->request->getUriArguments('cardUid'));
         $postForm = $this->app->get(PostForm::class)->getObject();
         $postForm->setBbsUid($cardDto->getBbsUid());
@@ -47,9 +52,7 @@ class TraceController extends BaseController
                 return $postList;
             }, []));
         $card->setPostForm($postForm);
-        $body .= $card->__toString();
-        $this->response->setBody($body);
-        return $this->response;
+        return $card;
     }
 
     private function getPostList(CardDto $cardDto): array

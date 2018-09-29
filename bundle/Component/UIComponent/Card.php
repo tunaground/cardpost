@@ -18,7 +18,8 @@ class Card extends AbstractComponent
      * @var DateTimeBuilder
      */
     private $dateTimeBuilder;
-    private $order;
+    /** @var int */
+    protected $order;
     /** @var CardDto */
     private $cardDto;
     /** @var Post[] */
