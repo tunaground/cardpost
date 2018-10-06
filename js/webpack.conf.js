@@ -4,7 +4,8 @@ module.exports = {
 	mode: 'development',
 	entry: {
 		index: ['./src/index.js'],
-        write: ['./src/write.js']
+        write: ['./src/write.js'],
+        trace: ['./src/trace.js']
 	},
     output: {
         path: path.resolve(__dirname, '../public/js'),
@@ -18,13 +19,6 @@ module.exports = {
             exclude: ['/node_modules'],
         }],
     },
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            r: 'ramda',
-        })
-    ],
     optimization: {},
     resolve: {
         modules: ['node_modules'],

@@ -23,6 +23,49 @@ const checkConsole = r.cond([
     [r.T, setDefault]
 ]);
 
+const fileUpload = ($file) => {
+    if ($file[0].files[0]) {
+        $file.siblings(".file_info").html($file[0].files[0].name);
+    } else {
+        $file.siblings(".file_info").html("");
+    }
+};
+
+const loadFormData = () => JSON.parse(localStorage.getItem("bbsFormData")) || {};
+
+const makeFormData = (cardUid, name, cons) => {
+    return {
+        "cardUid": cardUid,
+        "name": name,
+        "console": cons
+    };
+};
+
+const saveFormData = (cardUid, name, cons) => {
+    localStorage.setItem("bbsFormData", JSON.stringify(
+        r.compose(
+            r.append(makeFormData(cardUid, name, cons)),
+            r.reject(r.propEq('cardUid', cardUid)),
+        )(loadFormData())
+    ));
+};
+
+const checkoutFormData = ($fieldset) => {
+    r.compose(
+        r.when(
+            (raw) => r.not(r.isEmpty(raw)),
+            (formData) => {
+                $fieldset.find("[name=name]").val(formData[0].name);
+                $fieldset.find("[name=console]").val(formData[0].console);
+            }
+        ),
+        r.filter(r.propEq('cardUid', $fieldset.find("[name=card_uid]").val()))
+    )(loadFormData());
+};
+
 export default {
-    checkConsole
+    checkConsole,
+    fileUpload,
+    saveFormData,
+    checkoutFormData
 };
