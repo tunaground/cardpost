@@ -17,5 +17,6 @@ $(document).ready(() => {
     });
     $(".post_form_container").each(function () {
         form.checkoutFormData($(this));
+        form.checkConsole($(this).find("[name=console]"));
     });
 });
