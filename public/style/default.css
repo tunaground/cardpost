@@ -78,6 +78,10 @@
     }
 }
 
+* {
+    transition: background-color 0.5s ease
+}
+
 body {
     font-family: 'Nanum Gothic', serif;
     padding: 0;
@@ -120,13 +124,13 @@ input[type="text"] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    border: 1px solid #c8c8c8;
+    border: 0px solid #c8c8c8;
     padding: 8px;
     margin: 4px 0 4px 0;
     color: gray;
     border-radius: 3px;
 }
-
+/*
 input[type="file"] {
     width: 100%;
     height: 35px;
@@ -139,6 +143,33 @@ input[type="file"] {
     cursor: pointer;
     filter: alpha(opacity=0)
 }
+*/
+label {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0 4px 0;
+    font-size: 11px;
+    color: gray;
+    background-color: white;
+    cursor: pointer;
+    border: 0px solid #c8c8c8;
+    border-radius: 3px;
+}
+
+input[type="file"] { /* 파일 필드 숨기기 */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
 
 input[type="submit"] {
     width: 100%;
@@ -147,7 +178,7 @@ input[type="submit"] {
     box-sizing: border-box;
     padding: 8px;
     margin: 4px 0 4px 0;
-    border: solid 0 gray;
+    border: 0px solid #c8c8c8;
     color: gray;
     border-radius: 3px;
 }
@@ -160,7 +191,7 @@ textarea {
     box-sizing: border-box;
     padding: 8px;
     margin: 4px 0 4px 0;
-    border: solid 0 gray;
+    border: 0px solid #c8c8c8;
     color: gray;
     border-radius: 3px;
 }
@@ -330,7 +361,7 @@ ul.card_head li.open_time, li.refresh_time {
     color: #646464
 }
 
-fieldset.post_form_container, fieldset#card_form_container {
+fieldset.post_form_container {
     border-top: 2px solid #000;
     padding: 5px;
     border: 0;
@@ -427,4 +458,40 @@ iframe.youtube {
 img.thumbnail {
     max-width: 200px;
     max-height: 200px;
+}
+
+/* -------------------------------------------------- consoleType */
+fieldset.consoleType {
+    background-color: #2d2d37;
+}
+
+.consoleType input, .consoleType textarea {
+    background-color: #2d2d37;
+    color: white;
+    border: 1px solid #c8c8c8;
+}
+
+.consoleType input[name=name] {
+    display: none;
+}
+
+.consoleType label {
+    display: none;
+}
+
+.consoleType input[type=submit] {
+    background-color: white;
+    border: 0px solid #c8c8c8;
+    color: gray;
+}
+
+/* -------------------------------------------------- monaType */
+fieldset.monaType {
+    background-color: #640000;
+}
+
+.monaType textarea {
+    white-space: nowrap;
+    font-family: 'Saitamaar';
+    line-height: 1.1em;
 }

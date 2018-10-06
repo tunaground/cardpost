@@ -82,14 +82,13 @@ class WriteController extends BaseController
             }
             $this->writePostService->writePost($postDto, new Console($this->request->getPostParam('console')));
             DataSource::commit();
-            $this->response->addHeader('Location: ' . $this->request->getServerInfo('HTTP_REFERER'));
+            $this->response->addHeader("Refresh:2; url={$this->request->getServerInfo('HTTP_REFERER')}");
         } catch (\Exception $e) {
             DataSource::rollBack();
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
-            $this->response->setBody("에러 발생");
         } finally {
             DataSource::clear();
-            return $this->response;
+            return 'write';
         }
     }
 
@@ -116,12 +115,11 @@ class WriteController extends BaseController
                 $postDto->setImage($imageName);
             }
             $this->writePostService->writePost($postDto, new Console($this->request->getPostParam('console')));
-            $this->response->addHeader('Location: ' . $this->request->getServerInfo('HTTP_REFERER'));
+            $this->response->addHeader("Refresh:2; url={$this->request->getServerInfo('HTTP_REFERER')}");
         } catch (\Exception $e) {
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
-            $this->response->setBody("에러 발생");
         } finally {
-            return $this->response;
+            return 'write';
         }
     }
 }

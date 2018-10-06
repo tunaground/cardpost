@@ -3,7 +3,8 @@ const path = require('path');
 module.exports = {
 	mode: 'development',
 	entry: {
-		index: ['./src/index.js']
+		index: ['./src/index.js'],
+        write: ['./src/write.js']
 	},
     output: {
         path: path.resolve(__dirname, '../public/js'),
@@ -20,7 +21,8 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
+            r: 'ramda',
         })
     ],
     optimization: {},
