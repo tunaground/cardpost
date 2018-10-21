@@ -16,8 +16,7 @@ from   (select	card.card_uid,
 		where	1 = 1
 			and card.card_uid = :card_uid
 			and post.card_uid = card.card_uid
-		group
-			by	card.card_uid) c1,
+		group by card.card_uid) c1,
 		card c2,
 		post p
 where	1 = 1

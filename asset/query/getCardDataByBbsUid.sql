@@ -16,10 +16,8 @@ from   (select	card.card_uid,
 		where	1 = 1
 			and card.bbs_uid = :bbs_uid
 			and post.card_uid = card.card_uid
-		group
-			by	card.card_uid
-		order
-			by	card.refresh_date desc
+		group by card.card_uid
+		order by card.refresh_date desc
 		limit	0, 10) c1,
 		card c2,
 		post p
@@ -27,5 +25,4 @@ where	1 = 1
 	and c2.card_uid = c1.card_uid
 	and	p.card_uid = c2.card_uid
 	and p.post_order = 0
-order
-	by  c2.refresh_date desc
+order by c2.refresh_date desc

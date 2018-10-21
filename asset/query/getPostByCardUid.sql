@@ -12,5 +12,4 @@ select	post_uid,
 from	post
 where	1 = 1
 	and	card_uid = :card_uid
-order
-	by	post_uid asc
+order by post_uid asc

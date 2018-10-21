@@ -88,6 +88,10 @@ body {
     background-color: #f0f0f0;
 }
 
+.center {
+    text-align: center;
+}
+
 .popup_screen {
     width: 90%;
     height: 100%;
