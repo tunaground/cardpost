@@ -21,11 +21,13 @@ class CardDao
         $this->dataSource = $dataSource;
     }
 
-    public function getCardListByBbsUid(string $bbsUid): array
+    public function getCardListByBbsUid(string $bbsUid, int $startFrom, int $limitCount): array
     {
         $connection = $this->dataSource->getConnection();
         $stmt = $connection->prepare($this->queryLoader->load('getCardDataByBbsUid'));
         $stmt->bindValue(':bbs_uid', $bbsUid, \PDO::PARAM_STR);
+        $stmt->bindValue(':start_from', $startFrom, \PDO::PARAM_INT);
+        $stmt->bindValue(':limit_count', $limitCount, \PDO::PARAM_INT);
         $stmt->execute();
         $connection = null;
         $error = $stmt->errorInfo();

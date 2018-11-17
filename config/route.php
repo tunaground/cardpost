@@ -26,5 +26,9 @@ return [
         'controller' => Controller\WriteController::class,
         'method' => 'main'
     ],
-
+    [
+        'path' => '/list/{bbsUid}/{page}',
+        'controller' => Controller\ListController::class,
+        'method' => 'index'
+    ]
 ];

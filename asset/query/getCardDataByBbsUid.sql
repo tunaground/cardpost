@@ -18,7 +18,7 @@ from   (select	card.card_uid,
 			and post.card_uid = card.card_uid
 		group by card.card_uid
 		order by card.refresh_date desc
-		limit	0, 10) c1,
+		limit	:start_from, :limit_count) c1,
 		card c2,
 		post p
 where	1 = 1

@@ -499,3 +499,8 @@ fieldset.monaType {
     font-family: 'Saitamaar';
     line-height: 1.1em;
 }
+
+/* -------------------------------------------------- display */
+.hide {
+    display: none;
+}

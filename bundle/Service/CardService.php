@@ -14,9 +14,11 @@ class CardService implements CardServiceInterface
         $this->cardDao = $cardDao;
     }
 
-    public function getCardListByBbsUid(string $bbsUid): array
+    public function getCardListByBbsUid(string $bbsUid, int $page = 1, int $limitCount = 10): array
     {
-        return $this->cardDao->getCardListByBbsUid($bbsUid);
+        $page = ($page < 1)? 1 : $page;
+        $startFrom = ($page - 1) * $limitCount;
+        return $this->cardDao->getCardListByBbsUid($bbsUid, $startFrom, $limitCount);
     }
 
     public function getCardByCardUid(int $cardUid): CardDto
@@ -28,7 +30,6 @@ class CardService implements CardServiceInterface
     {
         return $this->cardDao->getCardDataOnlyByCardUid($cardUid);
     }
-
 
     /**
      * @param int $cardUid
