@@ -45,19 +45,23 @@ class Post extends AbstractComponent
 
     public function __toString()
     {
-        return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
-            'postUid' => $this->postDto->getPostUid(),
-            'order' => $this->postDto->getOrder(),
-            'name' => $this->postDto->getName(),
-            'userId' => $this->postDto->getUserId(),
-            'time' => $this->postDto->getCreateDate()
-                ->setTimezone($this->dateTimeBuilder->getUserTimezone())
-                ->format($this->dateFormat),
-            'content' => $this->postDto->getContent()
-                ->applyAnchor($this->postDto->getBbsUid(), $this->postDto->getCardUid())
-                ->__toString(),
-            'image' => $this->getImageWithTag()
-        ]);
+        if ($this->postDto->getStatus() == 1) {
+            return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
+                'postUid' => $this->postDto->getPostUid(),
+                'order' => $this->postDto->getOrder(),
+                'name' => $this->postDto->getName(),
+                'userId' => $this->postDto->getUserId(),
+                'time' => $this->postDto->getCreateDate()
+                    ->setTimezone($this->dateTimeBuilder->getUserTimezone())
+                    ->format($this->dateFormat),
+                'content' => $this->postDto->getContent()
+                    ->applyAnchor($this->postDto->getBbsUid(), $this->postDto->getCardUid())
+                    ->__toString(),
+                'image' => $this->getImageWithTag()
+            ]);
+        } else {
+            return '';
+        }
     }
 
     private function getImageWithTag()

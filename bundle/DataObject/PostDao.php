@@ -142,6 +142,26 @@ class PostDao
         return $postUid;
     }
 
+    /**
+     * @param int $postUID
+     * @param int $status
+     * @throws \Exception
+     */
+    public function updatePostStatus(int $postUID, int $status)
+    {
+        $connection = $this->dataSource->getConnection();
+        $stmt = $connection->prepare($this->queryLoader->load('updatePostStatus'));
+        $stmt->bindValue(':post_uid', $postUID, \PDO::PARAM_INT);
+        $stmt->bindValue(':status', $status, \PDO::PARAM_INT);
+        $stmt->execute();
+        $connection = null;
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
+            $error = $error[0] . ':' . $error[1];
+            throw new \Exception($error);
+        }
+    }
+
     private function parseToDto(array $postData): PostDTO
     {
         $postDto = new PostDto();

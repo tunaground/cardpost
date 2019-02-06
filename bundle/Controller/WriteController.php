@@ -8,6 +8,7 @@ use Tunacan\Bundle\DataObject\CardDto;
 use Tunacan\Bundle\DataObject\PostDto;
 use Tunacan\Bundle\Service\CardServiceInterface;
 use Tunacan\Bundle\Service\FileUploadServiceInterface;
+use Tunacan\Bundle\Service\ManagementServiceInterface;
 use Tunacan\Bundle\Service\PostServiceInterface;
 use Tunacan\Bundle\Service\WriteCardServiceInterface;
 use Tunacan\Bundle\Service\WritePostServiceInterface;
@@ -41,6 +42,11 @@ class WriteController extends BaseController
      * @var PostServiceInterface
      */
     private $postService;
+    /**
+     * @Inject
+     * @var ManagementServiceInterface
+     */
+    private $mgmtService;
 
     public function main()
     {
@@ -95,31 +101,40 @@ class WriteController extends BaseController
     public function writePost()
     {
         try {
-            $this->writePostService->checkAbuseRequest($this->request->getPostParam('content'));
-            $postDto = new PostDto();
-            $postDto->setOrder(
-                $this->postService->getLastPostOrder($this->request->getPostParam('card_uid')) + 1
-            );
-            $postDto->setCardUid($this->request->getPostParam('card_uid'));
-            $postDto->setBbsUid($this->request->getPostParam('bbs_uid'));
-            $postDto->setName($this->request->getPostParam('name'));
-            $postDto->setContent(new Content(htmlspecialchars($this->request->getPostParam('content'))));
-            $postDto->setImage($this->request->getPostParam('image'));
-            $postDto->setIp($this->request->getServerInfo('REMOTE_ADDR'));
-            if ($this->request->getFile('image')['size'] > 0) {
-                $imageName = $this->fileUploadService->putImage(
-                    $this->request->getFile('image'),
+            $console = new Console($this->request->getPostParam('console'));
+            if ($console->hasManageConsole()) {
+                $this->mgmtService->apply(
                     $this->request->getPostParam('card_uid'),
-                    $this->cardService->getCardSize($this->request->getPostParam('card_uid'))
+                    $this->request->getPostParam('content')
                 );
-                $postDto->setImage($imageName);
+            } else {
+                $this->writePostService->checkAbuseRequest($this->request->getPostParam('content'));
+                $postDto = new PostDto();
+                $postDto->setOrder(
+                    $this->postService->getLastPostOrder($this->request->getPostParam('card_uid')) + 1
+                );
+                $postDto->setCardUid($this->request->getPostParam('card_uid'));
+                $postDto->setBbsUid($this->request->getPostParam('bbs_uid'));
+                $postDto->setName($this->request->getPostParam('name'));
+                $postDto->setContent(new Content(htmlspecialchars($this->request->getPostParam('content'))));
+                $postDto->setImage($this->request->getPostParam('image'));
+                $postDto->setIp($this->request->getServerInfo('REMOTE_ADDR'));
+                if ($this->request->getFile('image')['size'] > 0) {
+                    $imageName = $this->fileUploadService->putImage(
+                        $this->request->getFile('image'),
+                        $this->request->getPostParam('card_uid'),
+                        $this->cardService->getCardSize($this->request->getPostParam('card_uid'))
+                    );
+                    $postDto->setImage($imageName);
+                }
+                $this->writePostService->writePost($postDto, $console);
             }
-            $this->writePostService->writePost($postDto, new Console($this->request->getPostParam('console')));
             $this->response->addHeader("Refresh:2; url={$this->request->getServerInfo('HTTP_REFERER')}");
+            return 'write';
         } catch (\Exception $e) {
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
-        } finally {
-            return 'write';
+            $this->response->addAttribute('error_message', $e->getMessage());
+            return 'error';
         }
     }
 }

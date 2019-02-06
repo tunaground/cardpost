@@ -54,8 +54,6 @@ class WritePostService implements WritePostServiceInterface
     public function writePost(PostDto $postDto, Console $console)
     {
         try {
-            $this->postDto = $postDto;
-            $this->console = $console;
             if (is_null($postDto->getCreateDate())) {
                 $postDto->setCreateDate($this->dateTimeBuilder->getCurrentUtcDateTime());
             }
