@@ -4,6 +4,7 @@ namespace Tunacan\Bundle\Service;
 
 use Tunacan\Bundle\Component\Console;
 use Tunacan\Bundle\Component\Content;
+use Tunacan\Bundle\DataObject\DenyDAO;
 use Tunacan\Bundle\DataObject\PostDao;
 use Tunacan\Bundle\DataObject\PostDto;
 use Tunacan\Bundle\Util\DateTimeBuilder;
@@ -20,12 +21,20 @@ class WritePostService implements WritePostServiceInterface
     private $dateTimeBuilder;
     /** @var PostDao */
     private $postDao;
+    /** @var DenyDAO */
+    private $denyDAO;
 
-    public function __construct(Encryptor $encryptor, DateTimeBuilder $dateTimeBuilder, PostDao $postDao)
+    public function __construct(
+        Encryptor $encryptor,
+        DateTimeBuilder $dateTimeBuilder,
+        PostDao $postDao,
+        DenyDAO $denyDAO
+    )
     {
         $this->encryptor = $encryptor;
         $this->dateTimeBuilder = $dateTimeBuilder;
         $this->postDao = $postDao;
+        $this->denyDAO = $denyDAO;
     }
 
     /**
@@ -64,6 +73,9 @@ class WritePostService implements WritePostServiceInterface
                     . $postDto->getBbsUid()
                 )
             );
+            if ($this->checkDenyUser($postDto->getCardUid(), $postDto->getUserId())) {
+                throw new \Exception('Blocked by card owner.');
+            }
             $postDto->setName($this->makeName($postDto->getName()));
             $postDto->setContent($this->makeContent($postDto->getContent(), $console));
             return $this->postDao->InsertPost($postDto);
@@ -110,5 +122,20 @@ class WritePostService implements WritePostServiceInterface
             throw new \Exception('Content is too long.');
         }
         return $content;
+    }
+
+    /**
+     * @param int $cardUID
+     * @param string $userID
+     * @return bool
+     * @throws \Exception
+     */
+    private function checkDenyUser(int $cardUID, string $userID): bool
+    {
+        try {
+            return $this->denyDAO->checkDeny($cardUID, $userID);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

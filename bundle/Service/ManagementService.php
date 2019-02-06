@@ -1,10 +1,14 @@
 <?php
+
 namespace Tunacan\Bundle\Service;
 
 use Tunacan\Bundle\Component\Management\CommandInterface;
+use Tunacan\Bundle\Component\Management\DenyCommand;
 use Tunacan\Bundle\Component\Management\HideCommand;
 use Tunacan\Bundle\DataObject\CardDao;
+use Tunacan\Bundle\DataObject\DenyDAO;
 use Tunacan\Bundle\DataObject\PostDao;
+use Tunacan\Bundle\Util\DateTimeBuilder;
 
 class ManagementService implements ManagementServiceInterface
 {
@@ -12,11 +16,22 @@ class ManagementService implements ManagementServiceInterface
     private $cardDAO;
     /** @var PostDao */
     private $postDAO;
+    /** @var DenyDAO */
+    private $denyDAO;
+    /** @var DateTimeBuilder */
+    private $dateTimeBuilder;
 
-    public function __construct(CardDao $cardDAO, PostDao $postDAO)
+    public function __construct(
+        CardDao $cardDAO,
+        PostDao $postDAO,
+        DenyDAO $denyDAO,
+        DateTimeBuilder $dateTimeBuilder
+    )
     {
         $this->cardDAO = $cardDAO;
         $this->postDAO = $postDAO;
+        $this->denyDAO = $denyDAO;
+        $this->dateTimeBuilder = $dateTimeBuilder;
     }
 
     /**
@@ -61,6 +76,14 @@ class ManagementService implements ManagementServiceInterface
                 case 'hide':
                     $post = $this->postDAO->getPostByPostOrder($cardUID, $cmdSplit[1]);
                     $cmd = new HideCommand($this->postDAO, $post->getPostUid());
+                    break;
+                case 'deny':
+                    $cmd = new DenyCommand(
+                        $this->denyDAO,
+                        $cardUID,
+                        trim($cmdSplit[1]),
+                        $this->dateTimeBuilder->getCurrentUtcDateTime()
+                    );
                     break;
                 default:
                     throw new \Exception('Command not found');
