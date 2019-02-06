@@ -56,7 +56,7 @@ class WriteController extends BaseController
             return $this->writePost();
         } else {
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
-            $this->response->addAttribute('error_message', 'Bad request.');
+            $this->response->addAttribute('error_title', 'Bad request.');
             return 'error';
         }
     }
@@ -99,7 +99,7 @@ class WriteController extends BaseController
             DataSource::rollBack();
             DataSource::clear();
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
-            $this->response->addAttribute('error_message', $e->getMessage());
+            $this->response->addAttribute('error_title', $e->getMessage());
             return 'error';
         }
     }
@@ -139,7 +139,7 @@ class WriteController extends BaseController
             return 'write';
         } catch (\Exception $e) {
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
-            $this->response->addAttribute('error_message', $e->getMessage());
+            $this->response->addAttribute('error_title', $e->getMessage());
             return 'error';
         }
     }

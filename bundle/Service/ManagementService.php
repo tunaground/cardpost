@@ -49,7 +49,7 @@ class ManagementService implements ManagementServiceInterface
                     $cmd->execute();
                 }
             } else {
-                throw new \Exception('Password not match');
+                throw new \Exception('Password not match.');
             }
         } catch (\Exception $e) {
             throw $e;
@@ -86,7 +86,7 @@ class ManagementService implements ManagementServiceInterface
                     );
                     break;
                 default:
-                    throw new \Exception('Command not found');
+                    throw new \Exception('Command not found.');
             }
             return $cmd;
         } catch (\Exception $e) {

@@ -17,19 +17,25 @@ class ListController extends BaseController
 
     public function index()
     {
-        $bbsUID = $this->request->getUriArguments('bbsUID');
-        $page = $this->request->getUriArguments('page');
-        $cardDTOList = $this->cardService->getCardListByBbsUID($bbsUID, $page);
-        $previousBtn = ($page <= 1)? 'hide' : '';
-        $nextBtn = (sizeof($cardDTOList) < 10)? 'hide' : '';
+        try {
+            $bbsUID = $this->request->getUriArguments('bbsUID');
+            $page = $this->request->getUriArguments('page');
+            $cardDTOList = $this->cardService->getCardListByBbsUID($bbsUID, $page);
+            $previousBtn = ($page <= 1) ? 'hide' : '';
+            $nextBtn = (sizeof($cardDTOList) < 10) ? 'hide' : '';
 
-        $this->response->addAttribute('bbs_uid', $bbsUID);
-        $this->response->addAttribute('card_list', $this->getCardList($cardDTOList));
-        $this->response->addAttribute('previous_btn', $previousBtn);
-        $this->response->addAttribute('next_btn', $nextBtn);
-        $this->response->addAttribute('previous_page', $page - 1);
-        $this->response->addAttribute('next_page', $page + 1);
-        return 'list';
+            $this->response->addAttribute('bbs_uid', $bbsUID);
+            $this->response->addAttribute('card_list', $this->getCardList($cardDTOList));
+            $this->response->addAttribute('previous_btn', $previousBtn);
+            $this->response->addAttribute('next_btn', $nextBtn);
+            $this->response->addAttribute('previous_page', $page - 1);
+            $this->response->addAttribute('next_page', $page + 1);
+            return 'list';
+        } catch (\Exception $e) {
+            $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
+            $this->response->addAttribute('error_title', $e->getMessage());
+            return 'error';
+        }
     }
 
     /**

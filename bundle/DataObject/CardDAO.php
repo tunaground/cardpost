@@ -59,8 +59,9 @@ class CardDAO
         if ($stmt->rowCount() > 0) {
             $fetch = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $this->parseToDTO($fetch);
+        } else {
+            throw new \Exception("Card(UID: {$cardUID}) not found.");
         }
-        return null;
     }
 
     /**

@@ -28,12 +28,18 @@ class IndexController extends BaseController
 
     public function index()
     {
-        $cardDTOList = $this->cardService->getCardListByBbsUID($this->request->getUriArguments('bbsUID'));
-        $this->response->addAttribute('bbs_uid', $this->request->getUriArguments('bbsUID'));
-        $this->response->addAttribute('card_list', $this->getCardList($cardDTOList));
-        $this->response->addAttribute('card_group', $this->getCardGroup($cardDTOList));
-        $this->response->addAttribute('card_form', $this->getCardForm());
-        return 'index';
+        try {
+            $cardDTOList = $this->cardService->getCardListByBbsUID($this->request->getUriArguments('bbsUID'));
+            $this->response->addAttribute('bbs_uid', $this->request->getUriArguments('bbsUID'));
+            $this->response->addAttribute('card_list', $this->getCardList($cardDTOList));
+            $this->response->addAttribute('card_group', $this->getCardGroup($cardDTOList));
+            $this->response->addAttribute('card_form', $this->getCardForm());
+            return 'index';
+        } catch (\Exception $e) {
+            $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
+            $this->response->addAttribute('error_title', $e->getMessage());
+            return 'error';
+        }
     }
 
     /**

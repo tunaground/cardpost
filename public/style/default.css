@@ -504,3 +504,22 @@ fieldset.monaType {
 .hide {
     display: none;
 }
+
+/* -------------------------------------------------- display */
+.error_container {
+    padding: 10px;
+}
+
+.error_container .head {
+    background-color: #4a4a4a;
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size: 20pt;
+    color: #FFFFFF;
+    padding: 10px;
+}
+
+.error_container .title {
+    font-family: 'Jeju Gothic', sans-serif;
+    font-size: 16pt;
+    padding: 10px;
+}

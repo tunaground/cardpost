@@ -47,7 +47,7 @@ class WritePostService implements WritePostServiceInterface
             (time() - $_SESSION['last_content_time']) < 30
             && $_SESSION['last_content_hash'] == md5($content)
         ) {
-            throw new \Exception('Deny.');
+            throw new \Exception('Abuse detected.');
         }
 
         $_SESSION['last_content_time'] = time();
