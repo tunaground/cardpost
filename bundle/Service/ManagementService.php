@@ -26,8 +26,7 @@ class ManagementService implements ManagementServiceInterface
         PostDAO $postDAO,
         DenyDAO $denyDAO,
         DateTimeBuilder $dateTimeBuilder
-    )
-    {
+    ) {
         $this->cardDAO = $cardDAO;
         $this->postDAO = $postDAO;
         $this->denyDAO = $denyDAO;
@@ -56,10 +55,20 @@ class ManagementService implements ManagementServiceInterface
         }
     }
 
+    /**
+     * @param int $cardUID
+     * @param string $password
+     * @return bool
+     * @throws \Exception
+     */
     public function checkPassword(int $cardUID, string $password): bool
     {
-        $card = $this->cardDAO->getCardByCardUID($cardUID);
-        return ($card->getPassword() === hash('sha256', trim($password)));
+        try {
+            $card = $this->cardDAO->getCardByCardUID($cardUID);
+            return ($card->getPassword() === hash('sha256', trim($password)));
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     /**

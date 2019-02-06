@@ -1,7 +1,7 @@
 <?php
+
 namespace Tunacan\MVC;
 
-use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Tunacan\Http\Request;
@@ -17,8 +17,12 @@ class BaseController implements ControllerInterface
     /** @var LoggerInterface */
     protected $logger;
 
-    public function __construct(ContainerInterface $container, Request $request, Response $response, LoggerInterface $logger)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        Request $request,
+        Response $response,
+        LoggerInterface $logger
+    ) {
         $this->app = $container;
         $this->request = $request;
         $this->response = $response;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\Service;
 
 use Tunacan\Bundle\DataObject\PostDAO;

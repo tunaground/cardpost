@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Http;
 
 use Psr\Container\ContainerInterface;
@@ -24,8 +25,12 @@ class Dispatcher implements RequestHandlerInterface
     /** @var PageResolver $resolver */
     private $resolver;
 
-    public function __construct(ContainerInterface $container, RouterInterface $router, PageResolver $resolver, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        RouterInterface $router,
+        PageResolver $resolver,
+        LoggerInterface $logger = null
+    ) {
         $this->delegateContainer = $container;
         $this->router = $router;
         $this->resolver = $resolver;

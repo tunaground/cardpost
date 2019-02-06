@@ -50,23 +50,27 @@ class Content
 
     public function applyColorTag()
     {
-        $this->contentString = preg_replace("/&lt;clr (#?[a-z0-9]+)&gt;(((?!&lt;\/clr&gt;)[\s\S])+)&lt;\/clr&gt;/", '<span style="color: \\1">\\2</span>', $this->contentString, -1);
+        $this->contentString = preg_replace("/&lt;clr (#?[a-z0-9]+)&gt;(((?!&lt;\/clr&gt;)[\s\S])+)&lt;\/clr&gt;/",
+            '<span style="color: \\1">\\2</span>', $this->contentString, -1);
     }
 
     public function applyColorAndShadowTag()
     {
-        $this->contentString = preg_replace("/&lt;clr (#?[a-z0-9]+) (#?[a-z0-9]+)&gt;(((?!&lt;\/clr&gt;)[\s\S])+)&lt;\/clr&gt;/", '<span style="color: \\1; text-shadow: 0px 0px 6px \\2;">\\3</span>', $this->contentString, -1);
+        $this->contentString = preg_replace("/&lt;clr (#?[a-z0-9]+) (#?[a-z0-9]+)&gt;(((?!&lt;\/clr&gt;)[\s\S])+)&lt;\/clr&gt;/",
+            '<span style="color: \\1; text-shadow: 0px 0px 6px \\2;">\\3</span>', $this->contentString, -1);
     }
 
     public function applyRubyTag()
     {
-        $this->contentString = preg_replace("/&lt;ruby ([a-zA-Z0-9가-힣一-龥\s]+)&gt;(((?!&lt;\/ruby&gt;)[\s\S])+)&lt;\/ruby&gt;/", '<ruby>\\2<rt>\\1</rt></ruby>', $this->contentString, -1);
+        $this->contentString = preg_replace("/&lt;ruby ([a-zA-Z0-9가-힣一-龥\s]+)&gt;(((?!&lt;\/ruby&gt;)[\s\S])+)&lt;\/ruby&gt;/",
+            '<ruby>\\2<rt>\\1</rt></ruby>', $this->contentString, -1);
     }
 
     public function applyDice()
     {
         $tempText = preg_split("/(\.dice )(0|-?[1-9][0-9]*)( )(0|-?[1-9][0-9]*)(\.)/", $this->contentString, -1);
-        if (preg_match_all("/(\.dice )(0|-?[1-9][0-9]*)( )(0|-?[1-9][0-9]*)(\.)/", $this->contentString, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all("/(\.dice )(0|-?[1-9][0-9]*)( )(0|-?[1-9][0-9]*)(\.)/", $this->contentString, $matches,
+            PREG_SET_ORDER)) {
             $diceResult = [];
             for ($i = 0; $i < sizeof($matches); $i++) {
                 $diceResult[$i] = mt_rand($matches[$i][2], $matches[$i][4]);

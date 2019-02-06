@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\Component\UIComponent;
 
 use Tunacan\Bundle\DataObject\PostDTO;
@@ -34,7 +35,8 @@ class Post extends AbstractComponent
         $this->dateFormat = $dateFormat;
     }
 
-    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder) {
+    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder)
+    {
         $this->dateTimeBuilder = $dateTimeBuilder;
     }
 

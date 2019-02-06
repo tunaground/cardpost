@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\Component\Management;
 
 use Tunacan\Bundle\DataObject\DenyDAO;

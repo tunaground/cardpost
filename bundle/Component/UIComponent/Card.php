@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\Component\UIComponent;
 
 use Tunacan\Bundle\DataObject\CardDTO;
@@ -40,7 +41,8 @@ class Card extends AbstractComponent
         $this->dateFormat = $dateFormat;
     }
 
-    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder) {
+    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder)
+    {
         $this->dateTimeBuilder = $dateTimeBuilder;
     }
 

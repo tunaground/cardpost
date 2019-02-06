@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Util;
 
 class CommonLoader extends AbstractLoader

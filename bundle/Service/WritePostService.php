@@ -29,8 +29,7 @@ class WritePostService implements WritePostServiceInterface
         DateTimeBuilder $dateTimeBuilder,
         PostDAO $postDao,
         DenyDAO $denyDAO
-    )
-    {
+    ) {
         $this->encryptor = $encryptor;
         $this->dateTimeBuilder = $dateTimeBuilder;
         $this->postDao = $postDao;

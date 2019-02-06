@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\Util;
 
 use Psr\Log\LoggerInterface;

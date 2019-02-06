@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Http;
 
 use Tunacan\Util\ContextParser;
@@ -43,7 +44,6 @@ class Response
     public function send()
     {
         $this->applyHeader();
-//        $this->publishBody();
     }
 
     private function applyHeader()
@@ -51,10 +51,5 @@ class Response
         foreach ($this->headerList as $header) {
             header($header);
         }
-    }
-
-    private function publishBody()
-    {
-        echo $this->parser->parse($this->body, $this->attribute);
     }
 }

@@ -7,7 +7,8 @@ return [
     'log.framework.handler' => \DI\get(\Monolog\Handler\StreamHandler::class),
     'log.framework.path' => '/var/log/tunacan/framework.log',
     'log.framework.name' => 'Framework',
-    \Tunacan\Bundle\Util\FrameworkLoggerInterface::class => \DI\create(\Monolog\Logger::class)->constructor(\DI\get('log.framework.name'))->method('pushHandler', \DI\get('log.framework.handler')),
+    \Tunacan\Bundle\Util\FrameworkLoggerInterface::class => \DI\create(\Monolog\Logger::class)->constructor(\DI\get('log.framework.name'))->method('pushHandler',
+        \DI\get('log.framework.handler')),
 
     'config.dir' => __DIR__,
     'config.route.file' => 'route.php',
@@ -41,7 +42,8 @@ return [
     \Monolog\Handler\StreamHandler::class => \DI\create()->constructor(\DI\get('log.common.path')),
     \Tunacan\Route\RouteCollection::class => \DI\factory(function (\Psr\Container\ContainerInterface $c) {
         $routeLoader = $c->get('config.route.loader');
-        return new \Tunacan\Route\RouteCollection($c->get(\Tunacan\Route\RouteBuilder::class), $routeLoader->load($c->get('config.dir') . '/' . $c->get('config.route.file')));
+        return new \Tunacan\Route\RouteCollection($c->get(\Tunacan\Route\RouteBuilder::class),
+            $routeLoader->load($c->get('config.dir') . '/' . $c->get('config.route.file')));
     }),
     \Tunacan\Http\Request::class => \DI\create()->constructor($_SERVER, $_POST, $_GET, $_FILES),
 

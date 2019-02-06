@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\DataObject;
 
 use Tunacan\Database\DataSourceInterface;
@@ -32,7 +33,7 @@ class PostDAO
             throw new \PDOException($error);
         }
         if ($stmt->rowCount() > 0) {
-            return ($stmt->fetchColumn())?: 0;
+            return ($stmt->fetchColumn()) ?: 0;
         }
         return 0;
     }

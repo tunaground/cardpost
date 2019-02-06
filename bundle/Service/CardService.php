@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Bundle\Service;
 
 use Tunacan\Bundle\DataObject\CardDAO;
@@ -16,14 +17,23 @@ class CardService implements CardServiceInterface
 
     public function getCardListByBbsUID(string $bbsUID, int $page = 1, int $limitCount = 10): array
     {
-        $page = ($page < 1)? 1 : $page;
+        $page = ($page < 1) ? 1 : $page;
         $startFrom = ($page - 1) * $limitCount;
         return $this->cardDao->getCardListByBbsUID($bbsUID, $startFrom, $limitCount);
     }
 
+    /**
+     * @param int $cardUID
+     * @return CardDTO
+     * @throws \Exception
+     */
     public function getCardByCardUID(int $cardUID): CardDTO
     {
-        return $this->cardDao->getCardByCardUID($cardUID);
+        try {
+            return $this->cardDao->getCardByCardUID($cardUID);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     public function getCardDataOnlyByCardUID(int $cardUID): CardDTO

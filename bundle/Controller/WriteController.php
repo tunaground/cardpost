@@ -52,7 +52,7 @@ class WriteController extends BaseController
     {
         if ($this->request->getPostParam('type') === 'card') {
             return $this->writeCard();
-        } else if ($this->request->getPostParam('type') === 'post') {
+        } elseif ($this->request->getPostParam('type') === 'post') {
             return $this->writePost();
         } else {
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
