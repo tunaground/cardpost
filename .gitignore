@@ -82,3 +82,4 @@ config/profile.dev.php
 config/profile.product.php
 node_modules
 public/js
+logs/
