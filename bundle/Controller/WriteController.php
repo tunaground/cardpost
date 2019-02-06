@@ -125,13 +125,19 @@ class WriteController extends BaseController
                 $postDTO->setContent(new Content(htmlspecialchars($this->request->getPostParam('content'))));
                 $postDTO->setImage($this->request->getPostParam('image'));
                 $postDTO->setIp($this->request->getServerInfo('REMOTE_ADDR'));
-                if ($this->request->getFile('image')['size'] > 0) {
-                    $imageName = $this->fileUploadService->putImage(
-                        $this->request->getFile('image'),
-                        $this->request->getPostParam('card_uid'),
-                        $this->cardService->getCardSize($this->request->getPostParam('card_uid'))
-                    );
-                    $postDTO->setImage($imageName);
+                $image = $this->request->getFile('image');
+                if ($image['name'] != '') {
+                    if ($image['error'] == 1) {
+                        throw new \Exception('File lager than PHP configuration.');
+                    }
+                    if ($image['size'] > 0) {
+                        $imageName = $this->fileUploadService->putImage(
+                            $this->request->getFile('image'),
+                            $this->request->getPostParam('card_uid'),
+                            $this->cardService->getCardSize($this->request->getPostParam('card_uid'))
+                        );
+                        $postDTO->setImage($imageName);
+                    }
                 }
                 $this->writePostService->writePost($postDTO, $console);
             }

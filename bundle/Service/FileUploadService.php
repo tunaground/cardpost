@@ -33,7 +33,7 @@ class FileUploadService
     public function putImage(array $file, int $cardUID, int $postUID): string
     {
         if ($file['size'] > $this->imageSizeLimit) {
-            throw new \Exception("File size is larger than {$this->imageSizeLimit} byte.");
+            throw new \Exception("File larger than {$this->imageSizeLimit} byte.");
         }
         if (!in_array($file['type'], $this->allowedImageType, 'true')) {
             throw new \Exception('Not allowed file type.');

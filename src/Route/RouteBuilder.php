@@ -8,10 +8,18 @@ class RouteBuilder
     {
         $route = new Route();
         $route->setPath($routeArray['path']);
-        $route->setControllerFqn($routeArray['controller']);
-        $route->setMethod($routeArray['method']);
-        $route->setOptions($routeArray['option']);
-        $route->setRedirect($routeArray['redirect']);
+        if (array_key_exists('controller', $routeArray)) {
+            $route->setControllerFqn($routeArray['controller']);
+        }
+        if (array_key_exists('method', $routeArray)) {
+            $route->setMethod($routeArray['method']);
+        }
+        if (array_key_exists('option', $routeArray)) {
+            $route->setOptions($routeArray['option']);
+        }
+        if (array_key_exists('redirect', $routeArray)) {
+            $route->setRedirect($routeArray['redirect']);
+        }
         return $route;
     }
 }

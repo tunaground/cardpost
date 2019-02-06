@@ -71,7 +71,6 @@ class Post extends AbstractComponent
         $imageSrc = "http://public.tunaground.net/".rawurlencode($this->postDTO->getImage());
         $noImageSrc = "http://public.tunaground.net/system/no-image.png";
         if ($this->postDTO->getImage()) {
-            var_dump(getimagesize($imageSrc));
             if ((@getimagesize($imageSrc) === false)) {
                 return "<img class='thumbnail' src='{$noImageSrc}'/>";
             } else {
