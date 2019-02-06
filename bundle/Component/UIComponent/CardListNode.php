@@ -119,7 +119,7 @@ class CardListNode extends AbstractComponent
         if ($this->order <= $linkCriteria) {
             $orderLink = "/trace/{$this->bbsUid}/{$this->cardUid}";
             $sizeLink = "{$orderLink}/recent";
-            $titleLink = "#{$this->order}";
+            $titleLink = "#card_{$this->order}";
         } else {
             $orderLink = "";
             $sizeLink = "/trace/{$this->bbsUid}/{$this->cardUid}";
