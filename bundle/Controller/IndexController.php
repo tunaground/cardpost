@@ -6,12 +6,12 @@ use Tunacan\Bundle\Component\UIComponent\CardForm;
 use Tunacan\Bundle\Component\UIComponent\CardListNode;
 use Tunacan\Bundle\Component\UIComponent\Post;
 use Tunacan\Bundle\Component\UIComponent\PostForm;
-use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\DataObject\PostDTO;
 use Tunacan\MVC\BaseController;
 use Tunacan\Bundle\Service\CardServiceInterface;
 use Tunacan\Bundle\Service\PostServiceInterface;
 use Tunacan\Bundle\Component\UIComponent\Card;
-use Tunacan\Bundle\DataObject\CardDto;
+use Tunacan\Bundle\DataObject\CardDTO;
 
 class IndexController extends BaseController
 {
@@ -28,32 +28,32 @@ class IndexController extends BaseController
 
     public function index()
     {
-        $cardDtoList = $this->cardService->getCardListByBbsUid($this->request->getUriArguments('bbsUid'));
-        $this->response->addAttribute('bbs_uid', $this->request->getUriArguments('bbsUid'));
-        $this->response->addAttribute('card_list', $this->getCardList($cardDtoList));
-        $this->response->addAttribute('card_group', $this->getCardGroup($cardDtoList));
+        $cardDTOList = $this->cardService->getCardListByBbsUID($this->request->getUriArguments('bbsUID'));
+        $this->response->addAttribute('bbs_uid', $this->request->getUriArguments('bbsUID'));
+        $this->response->addAttribute('card_list', $this->getCardList($cardDTOList));
+        $this->response->addAttribute('card_group', $this->getCardGroup($cardDTOList));
         $this->response->addAttribute('card_form', $this->getCardForm());
         return 'index';
     }
 
     /**
-     * @param CardDto[] $cardDtoList
+     * @param CardDTO[] $cardDTOList
      * @return string
      */
-    private function getCardList(array $cardDtoList)
+    private function getCardList(array $cardDTOList)
     {
         $cardOrder = 1;
         return array_reduce(
-            $cardDtoList,
-            function (string $carry, CardDto $cardDto) use (&$cardOrder) {
+            $cardDTOList,
+            function (string $carry, CardDTO $cardDTO) use (&$cardOrder) {
                 $cardListNode = $this->app->get(CardListNode::class)->getObject();
                 $cardListNode->setOrder($cardOrder++);
-                $cardListNode->setBbsUid($cardDto->getBbsUid());
-                $cardListNode->setCardUid($cardDto->getCardUid());
-                $cardListNode->setTitle($cardDto->getTitle());
-                $cardListNode->setOwner($cardDto->getOwner());
-                $cardListNode->setRefreshDate($cardDto->getRefreshDate());
-                $cardListNode->setSize($cardDto->getSize());
+                $cardListNode->setBbsUID($cardDTO->getBbsUID());
+                $cardListNode->setCardUID($cardDTO->getCardUID());
+                $cardListNode->setTitle($cardDTO->getTitle());
+                $cardListNode->setOwner($cardDTO->getOwner());
+                $cardListNode->setRefreshDate($cardDTO->getRefreshDate());
+                $cardListNode->setSize($cardDTO->getSize());
                 return $carry . $cardListNode->__toString();
             },
             ''
@@ -61,33 +61,33 @@ class IndexController extends BaseController
     }
 
     /**
-     * @param CardDto[] $cardDtoList
+     * @param CardDTO[] $cardDTOList
      * @return string
      */
-    private function getCardGroup(array $cardDtoList)
+    private function getCardGroup(array $cardDTOList)
     {
         $cardOrder = 1;
         return array_reduce(
-            $cardDtoList,
-            function (string $carry, CardDto $cardDto) use (&$cardOrder) {
+            $cardDTOList,
+            function (string $carry, CardDTO $cardDTO) use (&$cardOrder) {
                 $postForm = $this->app->get(PostForm::class)->getObject();
-                $postForm->setBbsUid($cardDto->getBbsUid());
-                $postForm->setCardUid($cardDto->getCardUid());
+                $postForm->setBbsUID($cardDTO->getBbsUID());
+                $postForm->setCardUID($cardDTO->getCardUID());
                 $card = $this->app->get(Card::class)->getObject();
                 $card->setOrder($cardOrder++);
-                $card->setCardDto($cardDto);
+                $card->setCardDTO($cardDTO);
                 $card->setPostList(array_reduce(
                     array_merge(
-                        $this->postService->getPostWithLimit($cardDto->getCardUid(), 0, 1),
+                        $this->postService->getPostWithLimit($cardDTO->getCardUID(), 0, 1),
                         $this->postService->getPostWithLimit(
-                            $cardDto->getCardUid(),
-                            ($cardDto->getSize() < 16) ? 1 : $cardDto->getSize() - 15,
-                            ($cardDto->getSize() < 16) ? $cardDto->getSize() : 15
+                            $cardDTO->getCardUID(),
+                            ($cardDTO->getSize() < 16) ? 1 : $cardDTO->getSize() - 15,
+                            ($cardDTO->getSize() < 16) ? $cardDTO->getSize() : 15
                         )
                     ),
-                    function (array $postList, PostDto $postDto) {
+                    function (array $postList, PostDTO $postDTO) {
                         $post = $this->app->get(Post::class)->getObject();
-                        $post->setPostDto($postDto);
+                        $post->setPostDTO($postDTO);
                         $postList[] = $post;
                         return $postList;
                     }, []));
@@ -99,7 +99,7 @@ class IndexController extends BaseController
     private function getCardForm()
     {
         $cardForm = $this->app->get(CardForm::class)->getObject();
-        $cardForm->setBbsUid($this->request->getUriArguments('bbsUid'));
+        $cardForm->setBbsUID($this->request->getUriArguments('bbsUID'));
         return $cardForm;
     }
 }

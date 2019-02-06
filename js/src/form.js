@@ -33,19 +33,19 @@ const fileUpload = ($file) => {
 
 const loadFormData = () => JSON.parse(localStorage.getItem("bbsFormData")) || {};
 
-const makeFormData = (cardUid, name, cons) => {
+const makeFormData = (cardUID, name, cons) => {
     return {
-        "cardUid": cardUid,
+        "cardUID": cardUID,
         "name": name,
         "console": cons
     };
 };
 
-const saveFormData = (cardUid, name, cons) => {
+const saveFormData = (cardUID, name, cons) => {
     localStorage.setItem("bbsFormData", JSON.stringify(
         r.compose(
-            r.append(makeFormData(cardUid, name, cons)),
-            r.reject(r.propEq('cardUid', cardUid)),
+            r.append(makeFormData(cardUID, name, cons)),
+            r.reject(r.propEq('cardUID', cardUID)),
         )(loadFormData())
     ));
 };
@@ -59,7 +59,7 @@ const checkoutFormData = ($fieldset) => {
                 $fieldset.find("[name=console]").val(formData[0].console);
             }
         ),
-        r.filter(r.propEq('cardUid', $fieldset.find("[name=card_uid]").val()))
+        r.filter(r.propEq('cardUID', $fieldset.find("[name=card_uid]").val()))
     )(loadFormData());
 };
 

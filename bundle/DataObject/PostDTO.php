@@ -3,50 +3,50 @@ namespace Tunacan\Bundle\DataObject;
 
 use Tunacan\Bundle\Component\Content;
 
-class PostDto
+class PostDTO
 {
-    private $postUid;
-    private $cardUid;
-    private $bbsUid;
+    private $postUID;
+    private $cardUID;
+    private $bbsUID;
     private $order;
     private $name;
-    private $userId;
+    private $userID;
     /** @var \DateTime */
-    private $create_date;
+    private $createDate;
     /** @var Content */
     private $content;
     private $image;
     private $ip;
     private $status;
 
-    public function getPostUid(): int
+    public function getPostUID(): int
     {
-        return $this->postUid;
+        return $this->postUID;
     }
 
-    public function setPostUid(int $postUid)
+    public function setPostUID(int $postUID)
     {
-        $this->postUid = $postUid;
+        $this->postUID = $postUID;
     }
 
-    public function getCardUid(): int
+    public function getCardUID(): int
     {
-        return $this->cardUid;
+        return $this->cardUID;
     }
 
-    public function setCardUid(int $cardUid)
+    public function setCardUID(int $cardUID)
     {
-        $this->cardUid = $cardUid;
+        $this->cardUID = $cardUID;
     }
 
-    public function getBbsUid(): string
+    public function getBbsUID(): string
     {
-        return $this->bbsUid;
+        return $this->bbsUID;
     }
 
-    public function setBbsUid(string $bbsUid)
+    public function setBbsUID(string $bbsUID)
     {
-        $this->bbsUid = $bbsUid;
+        $this->bbsUID = $bbsUID;
     }
 
     public function getOrder(): int
@@ -69,24 +69,24 @@ class PostDto
         $this->name = $name;
     }
 
-    public function getUserId(): string
+    public function getUserID(): string
     {
-        return $this->userId;
+        return $this->userID;
     }
 
-    public function setUserId(string $userId)
+    public function setUserID(string $userID)
     {
-        $this->userId = $userId;
+        $this->userID = $userID;
     }
 
     public function getCreateDate(): ?\DateTime
     {
-        return $this->create_date;
+        return $this->createDate;
     }
 
-    public function setCreateDate(\DateTime $create_date)
+    public function setCreateDate(\DateTime $createDate)
     {
-        $this->create_date = $create_date;
+        $this->createDate = $createDate;
     }
 
     public function getContent(): Content

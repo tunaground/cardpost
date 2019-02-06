@@ -2,15 +2,14 @@
 
 namespace Tunacan\Bundle\Controller;
 
-use Tunacan\Bundle\Component\UIComponent\CardForm;
 use Tunacan\Bundle\Component\UIComponent\Post;
 use Tunacan\Bundle\Component\UIComponent\PostForm;
-use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\DataObject\PostDTO;
 use Tunacan\MVC\BaseController;
 use Tunacan\Bundle\Service\CardServiceInterface;
 use Tunacan\Bundle\Service\PostServiceInterface;
 use Tunacan\Bundle\Component\UIComponent\Card;
-use Tunacan\Bundle\DataObject\CardDto;
+use Tunacan\Bundle\DataObject\CardDTO;
 
 class TraceController extends BaseController
 {
@@ -33,21 +32,21 @@ class TraceController extends BaseController
 
     private function getCardSection()
     {
-        $cardDto = $this->cardService->getCardByCardUid($this->request->getUriArguments('cardUid'));
+        $cardDTO = $this->cardService->getCardByCardUID($this->request->getUriArguments('cardUID'));
         $postForm = $this->app->get(PostForm::class)->getObject();
-        $postForm->setBbsUid($cardDto->getBbsUid());
-        $postForm->setCardUid($cardDto->getCardUid());
+        $postForm->setBbsUID($cardDTO->getBbsUID());
+        $postForm->setCardUID($cardDTO->getCardUID());
         $card = $this->app->get(Card::class)->getObject();
         $card->setOrder(0);
-        $card->setCardDto($cardDto);
+        $card->setCardDTO($cardDTO);
         $card->setPostList(array_reduce(
             array_merge(
-                $this->postService->getPostWithLimit($cardDto->getCardUid(),0,1),
-                $this->getPostList($cardDto)
+                $this->postService->getPostWithLimit($cardDTO->getCardUID(),0,1),
+                $this->getPostList($cardDTO)
             ),
-            function (array $postList, PostDto $postDto) {
+            function (array $postList, PostDTO $postDTO) {
                 $post = $this->app->get(Post::class)->getObject();
-                $post->setPostDto($postDto);
+                $post->setPostDTO($postDTO);
                 $postList[] = $post;
                 return $postList;
             }, []));
@@ -55,25 +54,25 @@ class TraceController extends BaseController
         return $card;
     }
 
-    private function getPostList(CardDto $cardDto): array
+    private function getPostList(CardDTO $cardDTO): array
     {
-        $startPostUid = $this->request->getUriArguments('startPostUid');
-        $endPostUid = $this->request->getUriArguments('endPostUid');
+        $startPostUID = $this->request->getUriArguments('startPostUID');
+        $endPostUID = $this->request->getUriArguments('endPostUID');
         $postLimitStart = 1;
-        $postLimitEnd = $cardDto->getSize() - 1;
-        if ($startPostUid === 'recent') {
-            $postLimitStart = ($cardDto->getSize() < 16)? 1 : $cardDto->getSize() - 15;
-            $postLimitEnd = ($cardDto->getSize() < 16)? $cardDto->getSize() : 15;
+        $postLimitEnd = $cardDTO->getSize() - 1;
+        if ($startPostUID === 'recent') {
+            $postLimitStart = ($cardDTO->getSize() < 16)? 1 : $cardDTO->getSize() - 15;
+            $postLimitEnd = ($cardDTO->getSize() < 16)? $cardDTO->getSize() : 15;
         }
-        if (is_numeric($startPostUid)) {
-            $postLimitStart = $startPostUid;
+        if (is_numeric($startPostUID)) {
+            $postLimitStart = $startPostUID;
             $postLimitEnd = 1;
         }
-        if (is_numeric($endPostUid)) {
-            $postLimitEnd = $endPostUid - $startPostUid + 1;
+        if (is_numeric($endPostUID)) {
+            $postLimitEnd = $endPostUID - $startPostUID + 1;
         }
         return $this->postService->getPostWithLimit(
-            $cardDto->getCardUid(),
+            $cardDTO->getCardUID(),
             $postLimitStart,
             $postLimitEnd
         );

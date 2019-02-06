@@ -3,5 +3,5 @@ namespace Tunacan\Bundle\Service;
 
 interface FileUploadServiceInterface
 {
-    public function putImage(array $file, int $cardUid, int $postUid): string;
+    public function putImage(array $file, int $cardUID, int $postUID): string;
 }

@@ -25,12 +25,12 @@ class FileUploadService
 
     /**
      * @param array $file
-     * @param int $cardUid
-     * @param int $postUid
+     * @param int $cardUID
+     * @param int $postUID
      * @return string
      * @throws \Exception
      */
-    public function putImage(array $file, int $cardUid, int $postUid): string
+    public function putImage(array $file, int $cardUID, int $postUID): string
     {
         if ($file['size'] > $this->imageSizeLimit) {
             throw new \Exception("File size is larger than {$this->imageSizeLimit} byte.");
@@ -38,17 +38,17 @@ class FileUploadService
         if (!in_array($file['type'], $this->allowedImageType, 'true')) {
             throw new \Exception('Not allowed file type.');
         }
-        $imageKey = $this->makeImageKey($file['name'], $cardUid, $postUid);
+        $imageKey = $this->makeImageKey($file['name'], $cardUID, $postUID);
         $this->storage->put($imageKey, $file);
         return $imageKey;
     }
 
-    private function makeImageKey(string $fileName, int $cardUid, int $postUid)
+    private function makeImageKey(string $fileName, int $cardUID, int $postUID)
     {
         return sprintf(
             'image/%s/%s-%s',
-            $cardUid,
-            $postUid,
+            $cardUID,
+            $postUID,
             $fileName
         );
     }

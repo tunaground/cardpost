@@ -18,9 +18,9 @@ class CardListNode extends AbstractComponent
      */
     private $dateTimeBuilder;
     /** @var string */
-    private $bbsUid;
+    private $bbsUID;
     /** @var int */
-    private $cardUid;
+    private $cardUID;
     /** @var int */
     private $order;
     /** @var string */
@@ -57,19 +57,19 @@ class CardListNode extends AbstractComponent
     }
 
     /**
-     * @param string $bbsUid
+     * @param string $bbsUID
      */
-    public function setBbsUid(string $bbsUid): void
+    public function setBbsUID(string $bbsUID): void
     {
-        $this->bbsUid = $bbsUid;
+        $this->bbsUID = $bbsUID;
     }
 
     /**
-     * @param int $cardUid
+     * @param int $cardUID
      */
-    public function setCardUid(int $cardUid): void
+    public function setCardUID(int $cardUID): void
     {
-        $this->cardUid = $cardUid;
+        $this->cardUID = $cardUID;
     }
 
     /**
@@ -117,12 +117,12 @@ class CardListNode extends AbstractComponent
         // TODO: link 기준 하드링크 수정해야함
         $linkCriteria = 10;
         if ($this->order <= $linkCriteria) {
-            $orderLink = "/trace/{$this->bbsUid}/{$this->cardUid}";
+            $orderLink = "/trace/{$this->bbsUID}/{$this->cardUID}";
             $sizeLink = "{$orderLink}/recent";
             $titleLink = "#card_{$this->order}";
         } else {
             $orderLink = "";
-            $sizeLink = "/trace/{$this->bbsUid}/{$this->cardUid}";
+            $sizeLink = "/trace/{$this->bbsUID}/{$this->cardUID}";
             $titleLink = "{$orderLink}/recent";
         }
         return $this->parser->parse($this->loader->load($this->htmlTemplateName), [

@@ -1,9 +1,9 @@
 <?php
 namespace Tunacan\Bundle\Service;
 
-use Tunacan\Bundle\DataObject\CardDto;
+use Tunacan\Bundle\DataObject\CardDTO;
 
 interface WriteCardServiceInterface
 {
-    public function writeCard(CardDto $cardDto);
+    public function writeCard(CardDTO $cardDTO);
 }

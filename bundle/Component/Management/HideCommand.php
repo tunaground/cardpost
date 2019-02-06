@@ -1,16 +1,16 @@
 <?php
 namespace Tunacan\Bundle\Component\Management;
 
-use Tunacan\Bundle\DataObject\PostDao;
+use Tunacan\Bundle\DataObject\PostDAO;
 
 class HideCommand implements CommandInterface
 {
-    /** @var PostDao */
+    /** @var PostDAO */
     private $postDAO;
     /** @var int */
     private $postUID;
 
-    public function __construct(PostDao $postDAO, int $postUID)
+    public function __construct(PostDAO $postDAO, int $postUID)
     {
         $this->postDAO = $postDAO;
         $this->postUID = $postUID;

@@ -5,8 +5,8 @@ namespace Tunacan\Bundle\Service;
 use Tunacan\Bundle\Component\Console;
 use Tunacan\Bundle\Component\Content;
 use Tunacan\Bundle\DataObject\DenyDAO;
-use Tunacan\Bundle\DataObject\PostDao;
-use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\DataObject\PostDAO;
+use Tunacan\Bundle\DataObject\PostDTO;
 use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\Bundle\Util\Encryptor;
 
@@ -19,7 +19,7 @@ class WritePostService implements WritePostServiceInterface
     private $defaultName;
     private $encryptor;
     private $dateTimeBuilder;
-    /** @var PostDao */
+    /** @var PostDAO */
     private $postDao;
     /** @var DenyDAO */
     private $denyDAO;
@@ -27,7 +27,7 @@ class WritePostService implements WritePostServiceInterface
     public function __construct(
         Encryptor $encryptor,
         DateTimeBuilder $dateTimeBuilder,
-        PostDao $postDao,
+        PostDAO $postDao,
         DenyDAO $denyDAO
     )
     {
@@ -55,30 +55,30 @@ class WritePostService implements WritePostServiceInterface
     }
 
     /**
-     * @param PostDto $postDto
+     * @param PostDTO $postDTO
      * @param Console $console
      * @return null|string
      * @throws \Exception
      */
-    public function writePost(PostDto $postDto, Console $console)
+    public function writePost(PostDTO $postDTO, Console $console)
     {
         try {
-            if (is_null($postDto->getCreateDate())) {
-                $postDto->setCreateDate($this->dateTimeBuilder->getCurrentUtcDateTime());
+            if (is_null($postDTO->getCreateDate())) {
+                $postDTO->setCreateDate($this->dateTimeBuilder->getCurrentUtcDateTime());
             }
-            $postDto->setUserId(
+            $postDTO->setUserID(
                 $this->encryptor->makeTrip(
-                    $postDto->getIp()
+                    $postDTO->getIp()
                     . date('Y-m-d', time())
-                    . $postDto->getBbsUid()
+                    . $postDTO->getBbsUID()
                 )
             );
-            if ($this->checkDenyUser($postDto->getCardUid(), $postDto->getUserId())) {
+            if ($this->checkDenyUser($postDTO->getCardUID(), $postDTO->getUserID())) {
                 throw new \Exception('Blocked by card owner.');
             }
-            $postDto->setName($this->makeName($postDto->getName()));
-            $postDto->setContent($this->makeContent($postDto->getContent(), $console));
-            return $this->postDao->InsertPost($postDto);
+            $postDTO->setName($this->makeName($postDTO->getName()));
+            $postDTO->setContent($this->makeContent($postDTO->getContent(), $console));
+            return $this->postDao->InsertPost($postDTO);
         } catch (\Exception $e) {
             throw $e;
         }

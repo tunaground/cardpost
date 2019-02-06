@@ -5,16 +5,16 @@ namespace Tunacan\Bundle\Service;
 use Tunacan\Bundle\Component\Management\CommandInterface;
 use Tunacan\Bundle\Component\Management\DenyCommand;
 use Tunacan\Bundle\Component\Management\HideCommand;
-use Tunacan\Bundle\DataObject\CardDao;
+use Tunacan\Bundle\DataObject\CardDAO;
 use Tunacan\Bundle\DataObject\DenyDAO;
-use Tunacan\Bundle\DataObject\PostDao;
+use Tunacan\Bundle\DataObject\PostDAO;
 use Tunacan\Bundle\Util\DateTimeBuilder;
 
 class ManagementService implements ManagementServiceInterface
 {
-    /** @var CardDao */
+    /** @var CardDAO */
     private $cardDAO;
-    /** @var PostDao */
+    /** @var PostDAO */
     private $postDAO;
     /** @var DenyDAO */
     private $denyDAO;
@@ -22,8 +22,8 @@ class ManagementService implements ManagementServiceInterface
     private $dateTimeBuilder;
 
     public function __construct(
-        CardDao $cardDAO,
-        PostDao $postDAO,
+        CardDAO $cardDAO,
+        PostDAO $postDAO,
         DenyDAO $denyDAO,
         DateTimeBuilder $dateTimeBuilder
     )
@@ -56,9 +56,9 @@ class ManagementService implements ManagementServiceInterface
         }
     }
 
-    public function checkPassword(int $cardUid, string $password): bool
+    public function checkPassword(int $cardUID, string $password): bool
     {
-        $card = $this->cardDAO->getCardByCardUid($cardUid);
+        $card = $this->cardDAO->getCardByCardUID($cardUID);
         return ($card->getPassword() === hash('sha256', trim($password)));
     }
 
@@ -75,7 +75,7 @@ class ManagementService implements ManagementServiceInterface
             switch ($cmdSplit[0]) {
                 case 'hide':
                     $post = $this->postDAO->getPostByPostOrder($cardUID, $cmdSplit[1]);
-                    $cmd = new HideCommand($this->postDAO, $post->getPostUid());
+                    $cmd = new HideCommand($this->postDAO, $post->getPostUID());
                     break;
                 case 'deny':
                     $cmd = new DenyCommand(

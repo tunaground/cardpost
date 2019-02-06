@@ -4,8 +4,8 @@ namespace Tunacan\Bundle\Controller;
 
 use Tunacan\Bundle\Component\Console;
 use Tunacan\Bundle\Component\Content;
-use Tunacan\Bundle\DataObject\CardDto;
-use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\DataObject\CardDTO;
+use Tunacan\Bundle\DataObject\PostDTO;
 use Tunacan\Bundle\Service\CardServiceInterface;
 use Tunacan\Bundle\Service\FileUploadServiceInterface;
 use Tunacan\Bundle\Service\ManagementServiceInterface;
@@ -54,6 +54,10 @@ class WriteController extends BaseController
             return $this->writeCard();
         } else if ($this->request->getPostParam('type') === 'post') {
             return $this->writePost();
+        } else {
+            $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
+            $this->response->addAttribute('error_message', 'Bad request.');
+            return 'error';
         }
     }
 
@@ -62,31 +66,31 @@ class WriteController extends BaseController
         try {
             $this->writePostService->checkAbuseRequest($this->request->getPostParam('content'));
             DataSource::beginTransaction();
-            $cardDto = new CardDto();
-            $cardDto->setBbsUid($this->request->getPostParam('bbs_uid'));
-            $cardDto->setTitle($this->request->getPostParam('title'));
-            $cardDto->setPassword($this->request->getPostParam('password'));
-            $cardUid = $this->writeCardService->writeCard($cardDto);
-            $createdCardDto = $this->cardService->getCardDataOnlyByCardUid($cardUid);
+            $cardDTO = new CardDTO();
+            $cardDTO->setBbsUID($this->request->getPostParam('bbs_uid'));
+            $cardDTO->setTitle($this->request->getPostParam('title'));
+            $cardDTO->setPassword($this->request->getPostParam('password'));
+            $cardUID = $this->writeCardService->writeCard($cardDTO);
+            $createdCardDTO = $this->cardService->getCardDataOnlyByCardUID($cardUID);
 
-            $postDto = new PostDto();
-            $postDto->setOrder(0);
-            $postDto->setCardUid($cardUid);
-            $postDto->setCreateDate($createdCardDto->getOpenDate());
-            $postDto->setBbsUid($this->request->getPostParam('bbs_uid'));
-            $postDto->setName($this->request->getPostParam('name'));
-            $postDto->setContent(new Content($this->request->getPostParam('content')));
-            $postDto->setImage($this->request->getPostParam('image'));
-            $postDto->setIp($this->request->getServerInfo('REMOTE_ADDR'));
+            $postDTO = new PostDTO();
+            $postDTO->setOrder(0);
+            $postDTO->setCardUID($cardUID);
+            $postDTO->setCreateDate($createdCardDTO->getOpenDate());
+            $postDTO->setBbsUID($this->request->getPostParam('bbs_uid'));
+            $postDTO->setName($this->request->getPostParam('name'));
+            $postDTO->setContent(new Content($this->request->getPostParam('content')));
+            $postDTO->setImage($this->request->getPostParam('image'));
+            $postDTO->setIp($this->request->getServerInfo('REMOTE_ADDR'));
             if ($this->request->getFile('image')['size'] > 0) {
                 $imageName = $this->fileUploadService->putImage(
                     $this->request->getFile('image'),
-                    $cardUid,
+                    $cardUID,
                     0
                 );
-                $postDto->setImage($imageName);
+                $postDTO->setImage($imageName);
             }
-            $this->writePostService->writePost($postDto, new Console($this->request->getPostParam('console')));
+            $this->writePostService->writePost($postDTO, new Console($this->request->getPostParam('console')));
             DataSource::commit();
             DataSource::clear();
             $this->response->addHeader("Refresh:2; url={$this->request->getServerInfo('HTTP_REFERER')}");
@@ -111,25 +115,25 @@ class WriteController extends BaseController
                 );
             } else {
                 $this->writePostService->checkAbuseRequest($this->request->getPostParam('content'));
-                $postDto = new PostDto();
-                $postDto->setOrder(
+                $postDTO = new PostDTO();
+                $postDTO->setOrder(
                     $this->postService->getLastPostOrder($this->request->getPostParam('card_uid')) + 1
                 );
-                $postDto->setCardUid($this->request->getPostParam('card_uid'));
-                $postDto->setBbsUid($this->request->getPostParam('bbs_uid'));
-                $postDto->setName($this->request->getPostParam('name'));
-                $postDto->setContent(new Content(htmlspecialchars($this->request->getPostParam('content'))));
-                $postDto->setImage($this->request->getPostParam('image'));
-                $postDto->setIp($this->request->getServerInfo('REMOTE_ADDR'));
+                $postDTO->setCardUID($this->request->getPostParam('card_uid'));
+                $postDTO->setBbsUID($this->request->getPostParam('bbs_uid'));
+                $postDTO->setName($this->request->getPostParam('name'));
+                $postDTO->setContent(new Content(htmlspecialchars($this->request->getPostParam('content'))));
+                $postDTO->setImage($this->request->getPostParam('image'));
+                $postDTO->setIp($this->request->getServerInfo('REMOTE_ADDR'));
                 if ($this->request->getFile('image')['size'] > 0) {
                     $imageName = $this->fileUploadService->putImage(
                         $this->request->getFile('image'),
                         $this->request->getPostParam('card_uid'),
                         $this->cardService->getCardSize($this->request->getPostParam('card_uid'))
                     );
-                    $postDto->setImage($imageName);
+                    $postDTO->setImage($imageName);
                 }
-                $this->writePostService->writePost($postDto, $console);
+                $this->writePostService->writePost($postDTO, $console);
             }
             $this->response->addHeader("Refresh:2; url={$this->request->getServerInfo('HTTP_REFERER')}");
             return 'write';

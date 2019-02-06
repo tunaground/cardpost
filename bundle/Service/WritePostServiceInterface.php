@@ -2,10 +2,10 @@
 namespace Tunacan\Bundle\Service;
 
 use Tunacan\Bundle\Component\Console;
-use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\DataObject\PostDTO;
 
 interface WritePostServiceInterface
 {
     public function checkAbuseRequest(string $content);
-    public function writePost(PostDto $dto, Console $console);
+    public function writePost(PostDTO $DTO, Console $console);
 }

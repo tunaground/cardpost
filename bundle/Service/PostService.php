@@ -1,58 +1,58 @@
 <?php
 namespace Tunacan\Bundle\Service;
 
-use Tunacan\Bundle\DataObject\PostDao;
-use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\DataObject\PostDAO;
+use Tunacan\Bundle\DataObject\PostDTO;
 
 class PostService implements PostServiceInterface
 {
-    /** @var PostDao */
+    /** @var PostDAO */
     private $postDao;
 
-    public function __construct(PostDao $postDao)
+    public function __construct(PostDAO $postDao)
     {
         $this->postDao = $postDao;
     }
 
-    public function getLastPostOrder(int $cardUid): int
+    public function getLastPostOrder(int $cardUID): int
     {
-        return $this->postDao->getLastPostOrder($cardUid);
+        return $this->postDao->getLastPostOrder($cardUID);
     }
 
-    public function getPostByCardUid(int $cardUid): array
+    public function getPostByCardUID(int $cardUID): array
     {
-        return $this->postDao->getPostByCardUid($cardUid);
+        return $this->postDao->getPostByCardUID($cardUID);
     }
 
-    public function getPostWithLimit(int $cardUid, int $start, int $count): array
+    public function getPostWithLimit(int $cardUID, int $start, int $count): array
     {
-        return $this->postDao->getPostWithLimit($cardUid, $start, $count);
+        return $this->postDao->getPostWithLimit($cardUID, $start, $count);
     }
 
     /**
-     * @param int $cardUid
+     * @param int $cardUID
      * @param int $postOrder
-     * @return PostDto
+     * @return PostDTO
      * @throws \Exception
      */
-    public function getPostByPostOrder(int $cardUid, int $postOrder): PostDto
+    public function getPostByPostOrder(int $cardUID, int $postOrder): PostDTO
     {
         try {
-            return $this->postDao->getPostByPostOrder($cardUid, $postOrder);
+            return $this->postDao->getPostByPostOrder($cardUID, $postOrder);
         } catch (\Exception $e) {
             throw $e;
         }
     }
 
     /**
-     * @param PostDto $postDto
+     * @param PostDTO $postDTO
      * @return null|string
      * @throws \Exception
      */
-    public function insertPost(PostDto $postDto)
+    public function insertPost(PostDTO $postDTO)
     {
         try {
-            return $this->postDao->InsertPost($postDto);
+            return $this->postDao->InsertPost($postDTO);
         } catch (\Exception $e) {
             throw $e;
         }

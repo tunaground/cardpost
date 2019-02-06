@@ -1,45 +1,45 @@
 <?php
 namespace Tunacan\Bundle\Service;
 
-use Tunacan\Bundle\DataObject\CardDao;
-use Tunacan\Bundle\DataObject\CardDto;
+use Tunacan\Bundle\DataObject\CardDAO;
+use Tunacan\Bundle\DataObject\CardDTO;
 
 class CardService implements CardServiceInterface
 {
-    /** @var CardDao */
+    /** @var CardDAO */
     private $cardDao;
 
-    public function __construct(CardDao $cardDao)
+    public function __construct(CardDAO $cardDao)
     {
         $this->cardDao = $cardDao;
     }
 
-    public function getCardListByBbsUid(string $bbsUid, int $page = 1, int $limitCount = 10): array
+    public function getCardListByBbsUID(string $bbsUID, int $page = 1, int $limitCount = 10): array
     {
         $page = ($page < 1)? 1 : $page;
         $startFrom = ($page - 1) * $limitCount;
-        return $this->cardDao->getCardListByBbsUid($bbsUid, $startFrom, $limitCount);
+        return $this->cardDao->getCardListByBbsUID($bbsUID, $startFrom, $limitCount);
     }
 
-    public function getCardByCardUid(int $cardUid): CardDto
+    public function getCardByCardUID(int $cardUID): CardDTO
     {
-        return $this->cardDao->getCardByCardUid($cardUid);
+        return $this->cardDao->getCardByCardUID($cardUID);
     }
 
-    public function getCardDataOnlyByCardUid(int $cardUid): CardDto
+    public function getCardDataOnlyByCardUID(int $cardUID): CardDTO
     {
-        return $this->cardDao->getCardDataOnlyByCardUid($cardUid);
+        return $this->cardDao->getCardDataOnlyByCardUID($cardUID);
     }
 
     /**
-     * @param int $cardUid
+     * @param int $cardUID
      * @return int
      * @throws \Exception
      */
-    public function getCardSize(int $cardUid): int
+    public function getCardSize(int $cardUID): int
     {
         try {
-            return $this->cardDao->getCardSize($cardUid);
+            return $this->cardDao->getCardSize($cardUID);
         } catch (\Exception $e) {
             throw $e;
         }

@@ -6,7 +6,7 @@ use Tunacan\MVC\AbstractComponent;
 class CardForm extends AbstractComponent
 {
     protected $htmlTemplateName = 'cardForm';
-    private $bbsUid;
+    private $bbsUID;
 
     public function getObject()
     {
@@ -14,15 +14,15 @@ class CardForm extends AbstractComponent
         return $cardForm;
     }
 
-    public function setBbsUid(string $bbsUid): void
+    public function setBbsUID(string $bbsUID): void
     {
-        $this->bbsUid = $bbsUid;
+        $this->bbsUID = $bbsUID;
     }
 
     public function __toString()
     {
         return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
-            'bbsUid' => $this->bbsUid
+            'bbsUID' => $this->bbsUID
         ]);
     }
 }

@@ -5,7 +5,7 @@ use Tunacan\Database\DataSourceInterface;
 use Tunacan\Bundle\Component\Content;
 use Tunacan\Util\LoaderInterface;
 
-class PostDao
+class PostDAO
 {
     private $dataSource;
     /**
@@ -19,16 +19,16 @@ class PostDao
         $this->dataSource = $dataSource;
     }
 
-    public function getLastPostOrder(int $cardUid): int
+    public function getLastPostOrder(int $cardUID): int
     {
         $connection = $this->dataSource->getConnection();
         $stmt = $connection->prepare($this->queryLoader->load('getLastPostOrder'));
-        $stmt->bindValue(':card_uid', $cardUid, \PDO::PARAM_INT);
+        $stmt->bindValue(':card_uid', $cardUID, \PDO::PARAM_INT);
         $stmt->execute();
         $connection = null;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
-            $error = $error[0] . ':' . $error[1];
+            $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
             throw new \PDOException($error);
         }
         if ($stmt->rowCount() > 0) {
@@ -37,109 +37,110 @@ class PostDao
         return 0;
     }
 
-    public function getPostByCardUid(int $cardUid): array
+    public function getPostByCardUID(int $cardUID): array
     {
         $connection = $this->dataSource->getConnection();
-        $stmt = $connection->prepare($this->queryLoader->load('getPostByCardUid'));
-        $stmt->bindValue(':card_uid', $cardUid);
+        $stmt = $connection->prepare($this->queryLoader->load('getPostByCardUID'));
+        $stmt->bindValue(':card_uid', $cardUID);
         $stmt->execute();
         $connection = null;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
-            $error = $error[0] . ':' . $error[1];
+            $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
             throw new \PDOException($error);
         }
         if ($stmt->rowCount() > 0) {
-            return array_reduce($stmt->fetchAll(\PDO::FETCH_ASSOC), function (array $postDtoList, array $postData) {
-                $postDtoList[] = $this->parseToDto($postData);
-                return $postDtoList;
+            return array_reduce($stmt->fetchAll(\PDO::FETCH_ASSOC), function (array $postDTOList, array $postData) {
+                $postDTOList[] = $this->parseToDTO($postData);
+                return $postDTOList;
             }, []);
         }
         return [];
     }
 
-    public function getPostWithLimit(int $cardUid, int $start, int $count): array
+    public function getPostWithLimit(int $cardUID, int $start, int $count): array
     {
         $connection = $this->dataSource->getConnection();
         $stmt = $connection->prepare($this->queryLoader->load('getPostWithLimit'));
-        $stmt->bindValue(':card_uid', $cardUid, \PDO::PARAM_INT);
+        $stmt->bindValue(':card_uid', $cardUID, \PDO::PARAM_INT);
         $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
         $stmt->bindValue(':count', $count, \PDO::PARAM_INT);
         $stmt->execute();
         $connection = null;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
-            $error = $error[0] . ':' . $error[1];
+            $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
             throw new \PDOException($error);
         }
         if ($stmt->rowCount() > 0) {
-            return array_reduce($stmt->fetchAll(\PDO::FETCH_ASSOC), function (array $postDtoList, array $postData) {
-                $postDtoList[] = $this->parseToDto($postData);
-                return $postDtoList;
+            return array_reduce($stmt->fetchAll(\PDO::FETCH_ASSOC), function (array $postDTOList, array $postData) {
+                $postDTOList[] = $this->parseToDTO($postData);
+                return $postDTOList;
             }, []);
         }
         return [];
     }
 
     /**
-     * @param int $cardUid
+     * @param int $cardUID
      * @param int $postOrder
-     * @return PostDto|null
+     * @return PostDTO|null
      * @throws \Exception
      */
-    public function getPostByPostOrder(int $cardUid, int $postOrder): PostDto
+    public function getPostByPostOrder(int $cardUID, int $postOrder): PostDTO
     {
         $connection = $this->dataSource->getConnection();
         $stmt = $connection->prepare($this->queryLoader->load('getPostByPostOrder'));
-        $stmt->bindValue(':card_uid', $cardUid, \PDO::PARAM_INT);
+        $stmt->bindValue(':card_uid', $cardUID, \PDO::PARAM_INT);
         $stmt->bindValue(':post_order', $postOrder, \PDO::PARAM_INT);
         $stmt->execute();
         $connection = null;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
-            $error = $error[0] . ':' . $error[1];
-            throw new \Exception($error);
+            $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
+            throw new \PDOException($error);
         }
         if ($stmt->rowCount() > 0) {
             $fetch = $stmt->fetch(\PDO::FETCH_ASSOC);
-            return $this->parseToDto($fetch);
+            return $this->parseToDTO($fetch);
         }
         return null;
     }
 
     /**
-     * @param PostDto $postDto
+     * @param PostDTO $postDTO
      * @return null|string
      * @throws \Exception
      */
-    public function InsertPost(PostDto $postDto)
+    public function InsertPost(PostDTO $postDTO)
     {
-        $postUid = null;
+        $postUID = null;
         try {
             $connection = $this->dataSource->getConnection();
             $stmt = $connection->prepare($this->queryLoader->load('insertPost'));
-            $stmt->bindValue(':card_uid', $postDto->getCardUid(), \PDO::PARAM_INT);
-            $stmt->bindValue(':bbs_uid', $postDto->getBbsUid(), \PDO::PARAM_STR);
-            $stmt->bindValue(':post_order', $postDto->getOrder(), \PDO::PARAM_INT);
-            $stmt->bindValue(':name', $postDto->getName(), \PDO::PARAM_STR);
-            $stmt->bindValue(':user_id', $postDto->getUserId(), \PDO::PARAM_STR);
-            $stmt->bindValue(':create_date', $postDto->getCreateDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-            $stmt->bindValue(':content', $postDto->getContent(), \PDO::PARAM_STR);
-            $stmt->bindValue(':image', $postDto->getImage(), \PDO::PARAM_STR);
-            $stmt->bindValue(':ip', $postDto->getIp(), \PDO::PARAM_STR);
+            $stmt->bindValue(':card_uid', $postDTO->getCardUID(), \PDO::PARAM_INT);
+            $stmt->bindValue(':bbs_uid', $postDTO->getBbsUID(), \PDO::PARAM_STR);
+            $stmt->bindValue(':post_order', $postDTO->getOrder(), \PDO::PARAM_INT);
+            $stmt->bindValue(':name', $postDTO->getName(), \PDO::PARAM_STR);
+            $stmt->bindValue(':user_id', $postDTO->getUserID(), \PDO::PARAM_STR);
+            $stmt->bindValue(':create_date', $postDTO->getCreateDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            $stmt->bindValue(':content', $postDTO->getContent(), \PDO::PARAM_STR);
+            $stmt->bindValue(':image', $postDTO->getImage(), \PDO::PARAM_STR);
+            $stmt->bindValue(':ip', $postDTO->getIp(), \PDO::PARAM_STR);
             $stmt->bindValue(':status', 1, \PDO::PARAM_INT);
             $stmt->execute();
             $error = $stmt->errorInfo();
             if ($error[0] !== '00000') {
-                throw new \PDOException($error[0] . ':' . $error[1]);
+                $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
+                throw new \PDOException($error);
             }
-            $postUid = $connection->lastInsertId();
+            $postUID = $connection->lastInsertId();
         } catch (\Exception $e) {
             throw $e;
         } finally {
             $connection = null;
         }
-        return $postUid;
+        return $postUID;
     }
 
     /**
@@ -157,25 +158,25 @@ class PostDao
         $connection = null;
         $error = $stmt->errorInfo();
         if ($error[0] !== '00000') {
-            $error = $error[0] . ':' . $error[1];
-            throw new \Exception($error);
+            $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
+            throw new \PDOException($error);
         }
     }
 
-    private function parseToDto(array $postData): PostDTO
+    private function parseToDTO(array $postData): PostDTO
     {
-        $postDto = new PostDto();
-        $postDto->setPostUid($postData['post_uid']);
-        $postDto->setCardUid($postData['card_uid']);
-        $postDto->setBbsUid($postData['bbs_uid']);
-        $postDto->setOrder($postData['post_order']);
-        $postDto->setName($postData['name']);
-        $postDto->setUserId($postData['user_id']);
-        $postDto->setCreateDate(new \DateTime($postData['create_date']));
-        $postDto->setContent(new Content($postData['content']));
-        $postDto->setImage($postData['image']);
-        $postDto->setIp($postData['ip']);
-        $postDto->setStatus($postData['status']);
-        return $postDto;
+        $postDTO = new PostDTO();
+        $postDTO->setPostUID($postData['post_uid']);
+        $postDTO->setCardUID($postData['card_uid']);
+        $postDTO->setBbsUID($postData['bbs_uid']);
+        $postDTO->setOrder($postData['post_order']);
+        $postDTO->setName($postData['name']);
+        $postDTO->setUserID($postData['user_id']);
+        $postDTO->setCreateDate(new \DateTime($postData['create_date']));
+        $postDTO->setContent(new Content($postData['content']));
+        $postDTO->setImage($postData['image']);
+        $postDTO->setIp($postData['ip']);
+        $postDTO->setStatus($postData['status']);
+        return $postDTO;
     }
 }

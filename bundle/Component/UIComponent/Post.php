@@ -1,7 +1,7 @@
 <?php
 namespace Tunacan\Bundle\Component\UIComponent;
 
-use Tunacan\Bundle\DataObject\PostDto;
+use Tunacan\Bundle\DataObject\PostDTO;
 use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\MVC\AbstractComponent;
 
@@ -18,8 +18,8 @@ class Post extends AbstractComponent
      * @var DateTimeBuilder
      */
     private $dateTimeBuilder;
-    /** @var PostDto */
-    private $postDto;
+    /** @var PostDTO */
+    private $postDTO;
 
     public function getObject()
     {
@@ -38,24 +38,24 @@ class Post extends AbstractComponent
         $this->dateTimeBuilder = $dateTimeBuilder;
     }
 
-    public function setPostDto(PostDto $postDto)
+    public function setPostDTO(PostDTO $postDTO)
     {
-        $this->postDto = $postDto;
+        $this->postDTO = $postDTO;
     }
 
     public function __toString()
     {
-        if ($this->postDto->getStatus() == 1) {
+        if ($this->postDTO->getStatus() == 1) {
             return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
-                'postUid' => $this->postDto->getPostUid(),
-                'order' => $this->postDto->getOrder(),
-                'name' => $this->postDto->getName(),
-                'userId' => $this->postDto->getUserId(),
-                'time' => $this->postDto->getCreateDate()
+                'postUID' => $this->postDTO->getPostUID(),
+                'order' => $this->postDTO->getOrder(),
+                'name' => $this->postDTO->getName(),
+                'userID' => $this->postDTO->getUserID(),
+                'time' => $this->postDTO->getCreateDate()
                     ->setTimezone($this->dateTimeBuilder->getUserTimezone())
                     ->format($this->dateFormat),
-                'content' => $this->postDto->getContent()
-                    ->applyAnchor($this->postDto->getBbsUid(), $this->postDto->getCardUid())
+                'content' => $this->postDTO->getContent()
+                    ->applyAnchor($this->postDTO->getBbsUID(), $this->postDTO->getCardUID())
                     ->__toString(),
                 'image' => $this->getImageWithTag()
             ]);
@@ -66,9 +66,9 @@ class Post extends AbstractComponent
 
     private function getImageWithTag()
     {
-        $imageSrc = "http://public.tunaground.net/{$this->postDto->getImage()}";
+        $imageSrc = "http://public.tunaground.net/{$this->postDTO->getImage()}";
         $noImageSrc = "http://public.tunaground.net/system/no-image.png";
-        if ($this->postDto->getImage()) {
+        if ($this->postDTO->getImage()) {
             if ((@getimagesize($imageSrc) === false)) {
                 return "<img class='thumbnail' src='{$noImageSrc}'/>";
             } else {

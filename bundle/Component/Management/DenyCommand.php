@@ -27,8 +27,8 @@ class DenyCommand implements CommandInterface
     {
         try {
             $denyDTO = new DenyDTO();
-            $denyDTO->setCardUid($this->cardUID);
-            $denyDTO->setUserId($this->userID);
+            $denyDTO->setCardUID($this->cardUID);
+            $denyDTO->setUserUID($this->userID);
             $denyDTO->setCreateDate($this->createDate);
             $denyDTO->setStatus(1);
             $this->denyDAO->insertDeny($denyDTO);

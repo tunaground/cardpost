@@ -5,7 +5,7 @@ namespace Tunacan\Bundle\Controller;
 use Tunacan\Bundle\Component\UIComponent\CardListNode;
 use Tunacan\MVC\BaseController;
 use Tunacan\Bundle\Service\CardServiceInterface;
-use Tunacan\Bundle\DataObject\CardDto;
+use Tunacan\Bundle\DataObject\CardDTO;
 
 class ListController extends BaseController
 {
@@ -17,14 +17,14 @@ class ListController extends BaseController
 
     public function index()
     {
-        $bbsUid = $this->request->getUriArguments('bbsUid');
+        $bbsUID = $this->request->getUriArguments('bbsUID');
         $page = $this->request->getUriArguments('page');
-        $cardDtoList = $this->cardService->getCardListByBbsUid($bbsUid, $page);
+        $cardDTOList = $this->cardService->getCardListByBbsUID($bbsUID, $page);
         $previousBtn = ($page <= 1)? 'hide' : '';
-        $nextBtn = (sizeof($cardDtoList) < 10)? 'hide' : '';
+        $nextBtn = (sizeof($cardDTOList) < 10)? 'hide' : '';
 
-        $this->response->addAttribute('bbs_uid', $bbsUid);
-        $this->response->addAttribute('card_list', $this->getCardList($cardDtoList));
+        $this->response->addAttribute('bbs_uid', $bbsUID);
+        $this->response->addAttribute('card_list', $this->getCardList($cardDTOList));
         $this->response->addAttribute('previous_btn', $previousBtn);
         $this->response->addAttribute('next_btn', $nextBtn);
         $this->response->addAttribute('previous_page', $page - 1);
@@ -33,23 +33,23 @@ class ListController extends BaseController
     }
 
     /**
-     * @param CardDto[] $cardDtoList
+     * @param CardDTO[] $cardDTOList
      * @return string
      */
-    private function getCardList(array $cardDtoList)
+    private function getCardList(array $cardDTOList)
     {
         $cardOrder = 1;
         return array_reduce(
-            $cardDtoList,
-            function (string $carry, CardDto $cardDto) use (&$cardOrder) {
+            $cardDTOList,
+            function (string $carry, CardDTO $cardDTO) use (&$cardOrder) {
                 $cardListNode = $this->app->get(CardListNode::class)->getObject();
                 $cardListNode->setOrder($cardOrder++);
-                $cardListNode->setBbsUid($cardDto->getBbsUid());
-                $cardListNode->setCardUid($cardDto->getCardUid());
-                $cardListNode->setTitle($cardDto->getTitle());
-                $cardListNode->setOwner($cardDto->getOwner());
-                $cardListNode->setRefreshDate($cardDto->getRefreshDate());
-                $cardListNode->setSize($cardDto->getSize());
+                $cardListNode->setBbsUID($cardDTO->getBbsUID());
+                $cardListNode->setCardUID($cardDTO->getCardUID());
+                $cardListNode->setTitle($cardDTO->getTitle());
+                $cardListNode->setOwner($cardDTO->getOwner());
+                $cardListNode->setRefreshDate($cardDTO->getRefreshDate());
+                $cardListNode->setSize($cardDTO->getSize());
                 return $carry . $cardListNode->__toString();
             },
             ''

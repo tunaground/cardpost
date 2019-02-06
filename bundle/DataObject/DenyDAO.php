@@ -29,14 +29,15 @@ class DenyDAO
         try {
             $connection = $this->dataSource->getConnection();
             $stmt = $connection->prepare($this->queryLoader->load('insertDeny'));
-            $stmt->bindValue(':card_uid', $denyDTO->getCardUid(), \PDO::PARAM_INT);
-            $stmt->bindValue(':user_id', $denyDTO->getUserId(), \PDO::PARAM_STR);
+            $stmt->bindValue(':card_uid', $denyDTO->getCardUID(), \PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $denyDTO->getUserUID(), \PDO::PARAM_STR);
             $stmt->bindValue(':create_date', $denyDTO->getCreateDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
             $stmt->bindValue(':status', 1, \PDO::PARAM_INT);
             $stmt->execute();
             $error = $stmt->errorInfo();
             if ($error[0] !== '00000') {
-                throw new \PDOException($error[0] . ':' . $error[1]);
+                $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
+                throw new \PDOException($error);
             }
             $denyUID = $connection->lastInsertId();
         } catch (\Exception $e) {
@@ -64,17 +65,18 @@ class DenyDAO
             $stmt->execute();
             $error = $stmt->errorInfo();
             if ($error[0] !== '00000') {
-                throw new \PDOException($error[0] . ':' . $error[1]);
+                $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
+                throw new \PDOException($error);
             }
+            $connection = null;
             if ($stmt->rowCount() > 0) {
                 return true;
             } else {
                 return false;
             }
         } catch (\Exception $e) {
-            throw $e;
-        } finally {
             $connection = null;
+            throw $e;
         }
     }
 }

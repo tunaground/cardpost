@@ -4,62 +4,62 @@ namespace Tunacan\Bundle\DataObject;
 class DenyDTO
 {
     /** @var int */
-    private $ban_uid;
+    private $denyUID;
     /** @var int */
-    private $card_uid;
+    private $cardUID;
     /** @var string */
-    private $user_id;
+    private $userUID;
     /** @var \DateTime */
-    private $create_date;
+    private $createDate;
     /** @var int */
     private $status;
 
     /**
      * @return int
      */
-    public function getBanUid(): int
+    public function getDenyUID(): int
     {
-        return $this->ban_uid;
+        return $this->denyUID;
     }
 
     /**
-     * @param int $ban_uid
+     * @param int $denyUID
      */
-    public function setBanUid(int $ban_uid): void
+    public function setDenyUID(int $denyUID): void
     {
-        $this->ban_uid = $ban_uid;
+        $this->denyUID = $denyUID;
     }
 
     /**
      * @return int
      */
-    public function getCardUid(): int
+    public function getCardUID(): int
     {
-        return $this->card_uid;
+        return $this->cardUID;
     }
 
     /**
-     * @param int $card_uid
+     * @param int $cardUID
      */
-    public function setCardUid(int $card_uid): void
+    public function setCardUID(int $cardUID): void
     {
-        $this->card_uid = $card_uid;
+        $this->cardUID = $cardUID;
     }
 
     /**
      * @return string
      */
-    public function getUserId(): string
+    public function getUserUID(): string
     {
-        return $this->user_id;
+        return $this->userUID;
     }
 
     /**
-     * @param string $user_id
+     * @param string $userUID
      */
-    public function setUserId(string $user_id): void
+    public function setUserUID(string $userUID): void
     {
-        $this->user_id = $user_id;
+        $this->userUID = $userUID;
     }
 
     /**
@@ -67,15 +67,15 @@ class DenyDTO
      */
     public function getCreateDate(): \DateTime
     {
-        return $this->create_date;
+        return $this->createDate;
     }
 
     /**
-     * @param \DateTime $create_date
+     * @param \DateTime $createDate
      */
-    public function setCreateDate(\DateTime $create_date): void
+    public function setCreateDate(\DateTime $createDate): void
     {
-        $this->create_date = $create_date;
+        $this->createDate = $createDate;
     }
 
     /**

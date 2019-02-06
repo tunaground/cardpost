@@ -1,7 +1,7 @@
 <?php
 namespace Tunacan\Bundle\Component\UIComponent;
 
-use Tunacan\Bundle\DataObject\CardDto;
+use Tunacan\Bundle\DataObject\CardDTO;
 use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\MVC\AbstractComponent;
 
@@ -20,8 +20,8 @@ class Card extends AbstractComponent
     private $dateTimeBuilder;
     /** @var int */
     protected $order;
-    /** @var CardDto */
-    private $cardDto;
+    /** @var CardDTO */
+    private $cardDTO;
     /** @var Post[] */
     private $postList;
     /** @var PostForm */
@@ -49,9 +49,9 @@ class Card extends AbstractComponent
         $this->order = $order;
     }
 
-    public function setCardDto(CardDto $cardDto)
+    public function setCardDTO(CardDTO $cardDTO)
     {
-        $this->cardDto = $cardDto;
+        $this->cardDTO = $cardDTO;
     }
 
     public function setPostList(array $postList)
@@ -68,15 +68,15 @@ class Card extends AbstractComponent
     {
         return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
             'order' => $this->order,
-            'bbsUid' => $this->cardDto->getBbsUid(),
-            'cardUid' => $this->cardDto->getCardUid(),
-            'owner' => $this->cardDto->getOwner(),
-            'title' => $this->cardDto->getTitle(),
-            'size' => $this->cardDto->getSize() - 1,
-            'openTime' => $this->cardDto->getOpenDate()
+            'bbsUID' => $this->cardDTO->getBbsUID(),
+            'cardUID' => $this->cardDTO->getCardUID(),
+            'owner' => $this->cardDTO->getOwner(),
+            'title' => $this->cardDTO->getTitle(),
+            'size' => $this->cardDTO->getSize() - 1,
+            'openTime' => $this->cardDTO->getOpenDate()
                 ->setTimezone($this->dateTimeBuilder->getUserTimezone())
                 ->format($this->dateFormat),
-            'refreshTime' => $this->cardDto->getRefreshDate()
+            'refreshTime' => $this->cardDTO->getRefreshDate()
                 ->setTimezone($this->dateTimeBuilder->getUserTimezone())
                 ->format($this->dateFormat),
             'postList' => array_reduce($this->postList, function (string $carry, Post $post) {

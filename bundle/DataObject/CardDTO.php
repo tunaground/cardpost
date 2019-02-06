@@ -1,10 +1,10 @@
 <?php
 namespace Tunacan\Bundle\DataObject;
 
-class CardDto
+class CardDTO
 {
-    private $cardUid;
-    private $bbsUid;
+    private $cardUID;
+    private $bbsUID;
     private $title;
     private $password;
     /** @var \DateTime */
@@ -17,24 +17,24 @@ class CardDto
     private $owner;
     private $size;
 
-    public function getCardUid(): int
+    public function getCardUID(): int
     {
-        return $this->cardUid;
+        return $this->cardUID;
     }
 
-    public function setCardUid(int $cardUid): void
+    public function setCardUID(int $cardUID): void
     {
-        $this->cardUid = $cardUid;
+        $this->cardUID = $cardUID;
     }
 
-    public function getBbsUid(): string
+    public function getBbsUID(): string
     {
-        return $this->bbsUid;
+        return $this->bbsUID;
     }
 
-    public function setBbsUid(string $bbsUid): void
+    public function setBbsUID(string $bbsUID): void
     {
-        $this->bbsUid = $bbsUid;
+        $this->bbsUID = $bbsUID;
     }
 
     public function getTitle(): string
