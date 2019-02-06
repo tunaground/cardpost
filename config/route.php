@@ -8,16 +8,12 @@ return [
         'redirect' => '/index/tuna'
     ],
     [
-        'path' => '/index/{bbsUid}',
+        'path' => '/index/:bbsUid',
         'controller' => Controller\IndexController::class,
         'method' => 'index'
     ],
     [
-        'path' => [
-            '/trace/{bbsUid}/{cardUid}',
-            '/trace/{bbsUid}/{cardUid}/{startPostUid}',
-            '/trace/{bbsUid}/{cardUid}/{startPostUid}/{endPostUid}'
-        ],
+        'path' => '/trace/:bbsUid/:cardUid?:startPostUid/:endPostUid',
         'controller' => Controller\TraceController::class,
         'method' => 'index'
     ],
@@ -27,7 +23,7 @@ return [
         'method' => 'main'
     ],
     [
-        'path' => '/list/{bbsUid}/{page}',
+        'path' => '/list/:bbsUid/:page',
         'controller' => Controller\ListController::class,
         'method' => 'index'
     ]

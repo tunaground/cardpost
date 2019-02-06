@@ -1,4 +1,5 @@
 <?php
+
 namespace Tunacan\Route;
 
 use Tunacan\Http\Request;
@@ -81,7 +82,7 @@ class Route implements RouteInterface
      */
     public function getArguments(): array
     {
-        return ($this->arguments)?: [];
+        return ($this->arguments) ?: [];
     }
 
     /**
@@ -113,33 +114,39 @@ class Route implements RouteInterface
         $this->redirect = $redirect;
     }
 
-    public function match(Request $request) {
-        $explodedConnectPath = explode(
+    public function match(Request $request)
+    {
+        $requestURI = $request->getServerInfo('REQUEST_URI');
+        $requestURIList = explode(
             '/',
-            preg_replace('/[\/]+/', '/', $request->getServerInfo('REQUEST_URI'))
+            preg_replace('/[\/]+/', '/', $requestURI)
         );
-        if (is_array($this->path)) {
-            return array_reduce($this->path, function ($carry, $path) use ($explodedConnectPath) {
-                $explodedRoutePath = explode('/', $path);
-                return $carry || $this->compare($explodedRoutePath, $explodedConnectPath);
-            }, false);
+        $matchFactor = explode('/', explode('?', $this->path)[0]);
+        array_shift($requestURIList);
+        array_shift($matchFactor);
+        if ($this->compare($matchFactor, $requestURIList)) {
+            preg_match_all('/[\/\?]?:?([a-zA-Z0-9]+)/', $this->path, $matches);
+            for ($i = 0; $i < sizeof($matches[0]); $i++) {
+                if (strpos($matches[0][$i], ':') === false) {
+                    continue;
+                } else {
+                    $this->arguments[$matches[1][$i]] = $requestURIList[$i];
+                }
+            }
+            return true;
         } else {
-            $explodedRoutePath = explode('/', $this->path);
-            return $this->compare($explodedRoutePath, $explodedConnectPath);
+            return false;
         }
     }
 
-    private function compare(array $explodedRoutePath, array $explodedConnectPath)
+    private function compare(array $matchFactor, array $requestURIList)
     {
-        if (sizeof($explodedRoutePath) != sizeof($explodedConnectPath)) {
+        if (sizeof($matchFactor) > sizeof($requestURIList)) {
             return false;
         }
-        for ($i = 0; $i < sizeof($explodedRoutePath); $i++) {
-            if (preg_match('/{[a-zA-Z0-9]+}/', $explodedRoutePath[$i]) !== 0) {
-                $this->arguments[substr($explodedRoutePath[$i], 1, -1)] = $explodedConnectPath[$i];
-            }
-            if (preg_match('/{[a-zA-Z0-9]+}/', $explodedRoutePath[$i]) === 0
-                && $explodedRoutePath[$i] !== $explodedConnectPath[$i]
+        for ($i = 0; $i < sizeof($matchFactor); $i++) {
+            if (preg_match('/:[a-zA-Z0-9]+/', $matchFactor[$i]) === 0
+                && $matchFactor[$i] !== $requestURIList[$i]
             ) {
                 return false;
             }
