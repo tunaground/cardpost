@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
--- Host: 127.0.0.1    Database: cardposti
+-- Host: localhost    Database: cardposti
 -- ------------------------------------------------------
 -- Server version	5.7.22
 
@@ -37,18 +37,26 @@ CREATE TABLE `card` (
   KEY `IDX_OPEN_DATE` (`open_date`),
   KEY `IDX_REFRESH_DATE` (`refresh_date`),
   KEY `IDX_TITLE` (`title`,`bbs_uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `card`
+-- Table structure for table `deny`
 --
 
-LOCK TABLES `card` WRITE;
-/*!40000 ALTER TABLE `card` DISABLE KEYS */;
-INSERT INTO `card` VALUES (1,'tuna','Hello','9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08','2018-06-23 04:45:34','2018-06-23 06:03:56',0,0,001);
-/*!40000 ALTER TABLE `card` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `deny`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `deny` (
+  `deny_uid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `card_uid` bigint(20) NOT NULL,
+  `user_id` varchar(20) NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(3) DEFAULT '1',
+  PRIMARY KEY (`deny_uid`),
+  KEY `IDX_CARD_USER` (`card_uid`,`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `post`
@@ -74,18 +82,8 @@ CREATE TABLE `post` (
   KEY `IDX_USER` (`user_id`),
   KEY `IDX_CREATE_DATE` (`create_date`),
   KEY `IDX_IP` (`ip`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `post`
---
-
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,1,'tuna',0,'익명의 참치 씨','admin','2018-06-08 15:09:47','Hi!',NULL,'127.0.0.0.1',001);
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -120,4 +118,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-23 15:36:55
+-- Dump completed on 2019-02-06 19:07:43
