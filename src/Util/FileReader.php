@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Util;
 
 class FileReader implements ReaderInterface

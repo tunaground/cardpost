@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Bundle\DataObject;
 
 use Tunacan\Bundle\Component\Content;

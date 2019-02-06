@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Database;
 
 class DataSource implements DataSourceInterface

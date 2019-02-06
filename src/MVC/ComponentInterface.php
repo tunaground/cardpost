@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\MVC;
 
 use Tunacan\Util\ContextParser;

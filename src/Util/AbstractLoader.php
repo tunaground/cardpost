@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Util;
 
 abstract class AbstractLoader implements LoaderInterface

@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Http;
 
 use Psr\Container\ContainerInterface;

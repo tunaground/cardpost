@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Bundle\Component;
 
 use Aws\S3\S3Client;

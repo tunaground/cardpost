@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Core;
 
 use Tunacan\Http\Request;

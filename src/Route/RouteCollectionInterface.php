@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Route;
 
 interface RouteCollectionInterface extends \Iterator

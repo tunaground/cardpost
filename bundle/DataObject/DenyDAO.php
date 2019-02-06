@@ -1,5 +1,4 @@
 <?php
-
 namespace Tunacan\Bundle\DataObject;
 
 use Tunacan\Database\DataSourceInterface;

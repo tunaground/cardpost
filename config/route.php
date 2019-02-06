@@ -1,5 +1,4 @@
 <?php
-
 use Tunacan\Bundle\Controller;
 
 return [
