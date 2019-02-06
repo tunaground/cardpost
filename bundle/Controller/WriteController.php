@@ -89,12 +89,14 @@ class WriteController extends BaseController
             $this->writePostService->writePost($postDto, new Console($this->request->getPostParam('console')));
             DataSource::commit();
             $this->response->addHeader("Refresh:2; url={$this->request->getServerInfo('HTTP_REFERER')}");
+            return 'write';
         } catch (\Exception $e) {
             DataSource::rollBack();
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
+            $this->response->addAttribute('error_message', $e->getMessage());
+            return 'error';
         } finally {
             DataSource::clear();
-            return 'write';
         }
     }
 
