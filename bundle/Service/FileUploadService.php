@@ -38,9 +38,13 @@ class FileUploadService
         if (!in_array($file['type'], $this->allowedImageType, 'true')) {
             throw new \Exception('Not allowed file type.');
         }
-        $imageKey = $this->makeImageKey($file['name'], $cardUID, $postUID);
-        $this->storage->put($imageKey, $file);
-        return $imageKey;
+        try {
+            $imageKey = $this->makeImageKey($file['name'], $cardUID, $postUID);
+            $this->storage->put($imageKey, $file);
+            return $imageKey;
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     private function makeImageKey(string $fileName, int $cardUID, int $postUID)
