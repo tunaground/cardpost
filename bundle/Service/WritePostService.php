@@ -6,17 +6,17 @@ use Tunacan\Bundle\Component\Content;
 use Tunacan\Bundle\DataObject\DenyDAO;
 use Tunacan\Bundle\DataObject\PostDAO;
 use Tunacan\Bundle\DataObject\PostDTO;
+use Tunacan\Bundle\DataObject\ConfigDAO;
 use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\Bundle\Util\Encryptor;
 
 class WritePostService implements WritePostServiceInterface
 {
-    /**
-     * @Inject("bbs.default.username")
-     * @var string
-     */
+    /** @var string */
     private $defaultName;
+    /** @var Encryptor */
     private $encryptor;
+    /** @var DateTimeBuilder */
     private $dateTimeBuilder;
     /** @var PostDAO */
     private $postDao;
@@ -27,12 +27,14 @@ class WritePostService implements WritePostServiceInterface
         Encryptor $encryptor,
         DateTimeBuilder $dateTimeBuilder,
         PostDAO $postDao,
-        DenyDAO $denyDAO
+        DenyDAO $denyDAO,
+        ConfigDAO $configDAO
     ) {
         $this->encryptor = $encryptor;
         $this->dateTimeBuilder = $dateTimeBuilder;
         $this->postDao = $postDao;
         $this->denyDAO = $denyDAO;
+        $this->defaultName = $configDAO->getConfigByKey('bbs.default.username');
     }
 
     /**

@@ -2,24 +2,22 @@
 namespace Tunacan\Bundle\Service;
 
 use Tunacan\Bundle\Component\StorageInterface;
+use Tunacan\Bundle\DataObject\ConfigDAO;
 
 class FileUploadService
 {
+    /** @var StorageInterface */
     private $storage;
-    /**
-     * @Inject("upload.image.size.limit")
-     * @var int
-     */
+    /** @var int */
     private $imageSizeLimit;
-    /**
-     * @Inject("upload.image.type.allowed")
-     * @var array
-     */
-    private $allowedImageType;
+    /** @var array */
+    private $imageTypeLimit;
 
-    public function __construct(StorageInterface $storage)
+    public function __construct(StorageInterface $storage, ConfigDAO $configDAO)
     {
         $this->storage = $storage;
+        $this->imageSizeLimit = $configDAO->getConfigByKey('upload.image.limit.size');
+        $this->imageTypeLimit = explode(';', $configDAO->getConfigByKey('upload.image.limit.type'));
     }
 
     /**
@@ -34,7 +32,7 @@ class FileUploadService
         if ($file['size'] > $this->imageSizeLimit) {
             throw new \Exception("File larger than {$this->imageSizeLimit} byte.");
         }
-        if (!in_array($file['type'], $this->allowedImageType, 'true')) {
+        if (!in_array($file['type'], $this->imageTypeLimit, 'true')) {
             throw new \Exception('Not allowed file type.');
         }
         try {
