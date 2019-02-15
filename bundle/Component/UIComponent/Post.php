@@ -14,6 +14,11 @@ class Post extends AbstractComponent
      */
     private $dateFormat;
     /**
+     * @Inject("tmp.domain.image")
+     * @var string
+     */
+    private $imageDomain;
+    /**
      * @Inject
      * @var DateTimeBuilder
      */
@@ -26,6 +31,7 @@ class Post extends AbstractComponent
         $post = new Post($this->loader, $this->parser);
         $post->setDateFormat($this->dateFormat);
         $post->setDateTimeBuilder($this->dateTimeBuilder);
+        $post->setImageDomain($this->imageDomain);
         return $post;
     }
 
@@ -37,6 +43,11 @@ class Post extends AbstractComponent
     public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder)
     {
         $this->dateTimeBuilder = $dateTimeBuilder;
+    }
+
+    public function setImageDomain(string $imageDomain)
+    {
+        $this->imageDomain = $imageDomain;
     }
 
     public function setPostDTO(PostDTO $postDTO)
@@ -67,14 +78,16 @@ class Post extends AbstractComponent
 
     private function getImageWithTag()
     {
-        $imageSrc = "http://public.tunaground.net/".rawurlencode($this->postDTO->getImage());
-        $noImageSrc = "http://public.tunaground.net/system/no-image.png";
+        $imageSrc = $this->imageDomain."/".rawurlencode($this->postDTO->getImage());
+        $noImageSrc = $this->imageDomain."/no-image.png";
         if ($this->postDTO->getImage()) {
-            if ((@getimagesize($imageSrc) === false)) {
-                return "<img class='thumbnail' src='{$noImageSrc}'/>";
-            } else {
+//            var_dump(@getimagesize($imageSrc));
+//            var_dump(@get_headers('http://127.0.0.1:8000', 1));
+//            if ((@getimagesize($imageSrc) === false)) {
+//                return "<img class='thumbnail' src='{$noImageSrc}'/>";
+//            } else {
                 return "<a href='{$imageSrc}'><img class='thumbnail' src='{$imageSrc}'/></a>";
-            }
+//            }
         } else {
             return '';
         }

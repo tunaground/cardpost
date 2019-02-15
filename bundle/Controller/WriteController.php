@@ -140,7 +140,10 @@ class WriteController extends BaseController
                 }
                 $this->writePostService->writePost($postDTO, $console);
             }
-            $this->response->addHeader("Refresh:2; url={$this->request->getServerInfo('HTTP_REFERER')}");
+            $redirect_url = (!$console->hasRelayConsole())
+                ? $this->request->getServerInfo('HTTP_REFERER')
+                : $this->request->getServerInfo('HTTP_REFERER') . '#input_box';
+            $this->response->addHeader("Refresh:2; url={$redirect_url}");
             return 'write';
         } catch (\Exception $e) {
             $this->response->addHeader('HTTP/1.1 500 Internal Server Error');
