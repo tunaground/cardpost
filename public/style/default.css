@@ -495,7 +495,6 @@ fieldset.monaType {
 }
 
 .monaType textarea {
-    white-space: nowrap;
     font-family: 'Saitamaar';
     line-height: 1.1em;
 }
