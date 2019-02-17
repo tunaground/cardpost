@@ -31,8 +31,8 @@ class ConfigDAO
         $stmt->bindValue(':key', $key, \PDO::PARAM_STR);
         $stmt->execute();
         $conn = null;
-        $err = $stmt->errorInfo();
-        if ($err[0] !== '00000') {
+        $error = $stmt->errorInfo();
+        if ($error[0] !== '00000') {
             $error = "[{$error[0]}][{$error[1]}] {$error[2]}";
             throw new \PDOException($error);
         }
