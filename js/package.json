@@ -23,6 +23,7 @@
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
+    "autolinker": "^3.0.0",
     "babel-core": "^6.26.3",
     "jquery": "^3.3.1",
     "ramda": "^0.25.0"

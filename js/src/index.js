@@ -1,5 +1,6 @@
 import * as $ from "jquery"
 import form from "./form"
+import linker from 'autolinker'
 
 $(document).ready(() => {
     $("[name=console]").on("input", function () {
@@ -7,6 +8,9 @@ $(document).ready(() => {
     });
     $("[name=image]").on("change", function () {
         form.fileUpload($(this));
+    });
+    $("p.content").each(function () {
+        $(this).html(linker.link($(this).html()));
     });
     $(".post_form_container input[type=submit]").on("click", function () {
         form.saveFormData(

@@ -431,10 +431,9 @@ li.post p.content {
     line-height: 1.4em;
 }
 
-li.post p.content span.dice {
+li.post span.dice {
     font-weight: bold;
     color: rgb(192, 22, 35);
-    border-bottom: 1px dashed rgb(192, 22, 35);
 }
 
 p.mona {
