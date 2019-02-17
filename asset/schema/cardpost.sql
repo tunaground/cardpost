@@ -37,8 +37,43 @@ CREATE TABLE `card` (
   KEY `IDX_OPEN_DATE` (`open_date`),
   KEY `IDX_REFRESH_DATE` (`refresh_date`),
   KEY `IDX_TITLE` (`title`,`bbs_uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `card`
+--
+
+LOCK TABLES `card` WRITE;
+/*!40000 ALTER TABLE `card` DISABLE KEYS */;
+/*!40000 ALTER TABLE `card` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `config`
+--
+
+DROP TABLE IF EXISTS `config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `config` (
+  `config_uid` int(11) NOT NULL AUTO_INCREMENT,
+  `k` varchar(255) DEFAULT NULL,
+  `v` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`config_uid`),
+  UNIQUE KEY `IDX_CONFIG_KEY` (`k`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `config`
+--
+
+LOCK TABLES `config` WRITE;
+/*!40000 ALTER TABLE `config` DISABLE KEYS */;
+INSERT INTO `config` VALUES (1,'upload.image.limit.size','1048576'),(2,'upload.image.limit.type','image/jpeg;image/png;image/gif'),(3,'bbs.default.username','이름 없음')(4,'format.date','Y-m-d H:i:s')(5,'image.domain','http://localhost');
+/*!40000 ALTER TABLE `config` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `deny`
@@ -55,8 +90,17 @@ CREATE TABLE `deny` (
   `status` int(3) DEFAULT '1',
   PRIMARY KEY (`deny_uid`),
   KEY `IDX_CARD_USER` (`card_uid`,`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `deny`
+--
+
+LOCK TABLES `deny` WRITE;
+/*!40000 ALTER TABLE `deny` DISABLE KEYS */;
+/*!40000 ALTER TABLE `deny` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `post`
@@ -82,8 +126,17 @@ CREATE TABLE `post` (
   KEY `IDX_USER` (`user_id`),
   KEY `IDX_CREATE_DATE` (`create_date`),
   KEY `IDX_IP` (`ip`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -118,4 +171,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-06 19:07:43
+-- Dump completed on 2019-02-16  2:02:38
