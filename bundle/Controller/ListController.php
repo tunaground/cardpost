@@ -2,6 +2,7 @@
 namespace Tunacan\Bundle\Controller;
 
 use Tunacan\Bundle\Component\UIComponent\CardListNode;
+use Tunacan\Bundle\Service\UIComponentServiceInterface;
 use Tunacan\MVC\BaseController;
 use Tunacan\Bundle\Service\CardServiceInterface;
 use Tunacan\Bundle\DataObject\CardDTO;
@@ -13,6 +14,11 @@ class ListController extends BaseController
      * @var CardServiceInterface
      */
     private $cardService;
+    /**
+     * @Inject
+     * @var UIComponentServiceInterface
+     */
+    private $uiService;
 
     public function index()
     {
@@ -43,22 +49,11 @@ class ListController extends BaseController
      */
     private function getCardList(array $cardDTOList)
     {
-        $cardOrder = 1;
         return array_reduce(
-            $cardDTOList,
-            function (string $carry, CardDTO $cardDTO) use (&$cardOrder) {
-                $cardListNode = $this->app->get(CardListNode::class)->getObject();
-                $cardListNode->setOrder($cardOrder++);
-                $cardListNode->setBbsUID($cardDTO->getBbsUID());
-                $cardListNode->setCardUID($cardDTO->getCardUID());
-                $cardListNode->setTitle($cardDTO->getTitle());
-                $cardListNode->setOwner($cardDTO->getOwner());
-                $cardListNode->setRefreshDate($cardDTO->getRefreshDate());
-                $cardListNode->setSize($cardDTO->getSize());
-                return $carry . $cardListNode->__toString();
-            },
-            ''
-        );
+            $this->uiService->drawCardList($cardDTOList),
+            function (string $carry, CardListNode $cardListNode) {
+                return $carry . $cardListNode;
+            }, '');
     }
 }
 

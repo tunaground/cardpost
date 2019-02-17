@@ -1,9 +1,7 @@
 <?php
 namespace Tunacan\Bundle\Controller;
 
-use Tunacan\Bundle\Component\UIComponent\Post;
-use Tunacan\Bundle\Component\UIComponent\PostForm;
-use Tunacan\Bundle\DataObject\PostDTO;
+use Tunacan\Bundle\Service\UIComponentServiceInterface;
 use Tunacan\MVC\BaseController;
 use Tunacan\Bundle\Service\CardServiceInterface;
 use Tunacan\Bundle\Service\PostServiceInterface;
@@ -22,6 +20,11 @@ class TraceController extends BaseController
      * @var PostServiceInterface
      */
     private $postService;
+    /**
+     * @Inject
+     * @var UIComponentServiceInterface
+     */
+    private $uiService;
 
     public function index()
     {
@@ -43,24 +46,12 @@ class TraceController extends BaseController
     {
         try {
             $cardDTO = $this->cardService->getCardByCardUID($this->request->getUriArguments('cardUID'));
-            $postForm = $this->app->get(PostForm::class)->getObject();
-            $postForm->setBbsUID($cardDTO->getBbsUID());
-            $postForm->setCardUID($cardDTO->getCardUID());
-            $card = $this->app->get(Card::class)->getObject();
-            $card->setOrder(0);
-            $card->setCardDTO($cardDTO);
-            $card->setPostList(array_reduce(
-                array_merge(
-                    $this->postService->getPostWithLimit($cardDTO->getCardUID(), 0, 1),
-                    $this->getPostList($cardDTO)
-                ),
-                function (array $postList, PostDTO $postDTO) {
-                    $post = $this->app->get(Post::class)->getObject();
-                    $post->setPostDTO($postDTO);
-                    $postList[] = $post;
-                    return $postList;
-                }, []));
-            $card->setPostForm($postForm);
+            $postForm = $this->uiService->drawPostForm($cardDTO);
+            $postList = $this->uiService->drawPost(array_merge(
+                $this->postService->getPostWithLimit($cardDTO->getCardUID(), 0, 1),
+                $this->getPostList($cardDTO)
+            ));
+            $card = $this->uiService->drawCard($cardDTO, 0, $postForm, $postList);
             return $card;
         } catch (\Exception $e) {
             throw $e;

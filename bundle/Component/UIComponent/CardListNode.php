@@ -1,22 +1,11 @@
 <?php
 namespace Tunacan\Bundle\Component\UIComponent;
 
-use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\MVC\AbstractComponent;
 
 class CardListNode extends AbstractComponent
 {
-    protected $htmlTemplateName = 'cardListNode';
-    /**
-     * @Inject("date.format.common")
-     * @var string
-     */
-    private $dateFormat;
-    /**
-     * @Inject
-     * @var DateTimeBuilder
-     */
-    private $dateTimeBuilder;
+    protected static $templateName = 'cardListNode';
     /** @var string */
     private $bbsUID;
     /** @var int */
@@ -31,14 +20,10 @@ class CardListNode extends AbstractComponent
     private $owner;
     /** @var \DateTime */
     private $refreshDate;
-
-    public function getObject()
-    {
-        $obj = new CardListNode($this->loader, $this->parser);
-        $obj->setDateFormat($this->dateFormat);
-        $obj->setDateTimeBuilder($this->dateTimeBuilder);
-        return $obj;
-    }
+    /** @var \DateTimeZone */
+    private $timezone;
+    /** @var string */
+    private $dateFormat;
 
     /**
      * @param string $dateFormat
@@ -49,11 +34,11 @@ class CardListNode extends AbstractComponent
     }
 
     /**
-     * @param DateTimeBuilder $dateTimeBuilder
+     * @param \DateTimeZone $timezone
      */
-    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder): void
+    public function setTimezone(\DateTimeZone $timezone): void
     {
-        $this->dateTimeBuilder = $dateTimeBuilder;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -125,7 +110,7 @@ class CardListNode extends AbstractComponent
             $sizeLink = "/trace/{$this->bbsUID}/{$this->cardUID}";
             $titleLink = "{$orderLink}/recent";
         }
-        return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
+        return $this->parser->parse($this->template, [
             'order_link' => $orderLink,
             'size_link' => $sizeLink,
             'title_link' => $titleLink,
@@ -134,7 +119,7 @@ class CardListNode extends AbstractComponent
             'size' => $this->size,
             'owner' => $this->owner,
             'refresh_date' => $this->refreshDate
-                ->setTimezone($this->dateTimeBuilder->getUserTimezone())
+                ->setTimezone($this->timezone)
                 ->format($this->dateFormat)
         ]);
     }

@@ -5,15 +5,9 @@ use Tunacan\MVC\AbstractComponent;
 
 class PostForm extends AbstractComponent
 {
-    protected $htmlTemplateName = 'postForm';
+    protected static $templateName = 'postForm';
     private $bbsUID;
     private $cardUID;
-
-    public function getObject()
-    {
-        $postForm = new PostForm($this->loader, $this->parser);
-        return $postForm;
-    }
 
     public function setBbsUID(string $bbsUID): void
     {
@@ -27,7 +21,7 @@ class PostForm extends AbstractComponent
 
     public function __toString()
     {
-        return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
+        return $this->parser->parse($this->template, [
             'bbsUID' => $this->bbsUID,
             'cardUID' => $this->cardUID
         ]);

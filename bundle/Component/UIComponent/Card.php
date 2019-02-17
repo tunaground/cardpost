@@ -2,22 +2,11 @@
 namespace Tunacan\Bundle\Component\UIComponent;
 
 use Tunacan\Bundle\DataObject\CardDTO;
-use Tunacan\Bundle\Util\DateTimeBuilder;
 use Tunacan\MVC\AbstractComponent;
 
 class Card extends AbstractComponent
 {
-    protected $htmlTemplateName = 'cardSection';
-    /**
-     * @Inject("date.format.common")
-     * @var string
-     */
-    private $dateFormat;
-    /**
-     * @Inject
-     * @var DateTimeBuilder
-     */
-    private $dateTimeBuilder;
+    protected static $templateName = 'cardSection';
     /** @var int */
     protected $order;
     /** @var CardDTO */
@@ -26,24 +15,10 @@ class Card extends AbstractComponent
     private $postList;
     /** @var PostForm */
     private $postForm;
-
-    public function getObject()
-    {
-        $card = new Card($this->loader, $this->parser);
-        $card->setDateFormat($this->dateFormat);
-        $card->setDateTimeBuilder($this->dateTimeBuilder);
-        return $card;
-    }
-
-    public function setDateFormat(string $dateFormat)
-    {
-        $this->dateFormat = $dateFormat;
-    }
-
-    public function setDateTimeBuilder(DateTimeBuilder $dateTimeBuilder)
-    {
-        $this->dateTimeBuilder = $dateTimeBuilder;
-    }
+    /** @var \DateTimeZone */
+    private $timezone;
+    /** @var string */
+    private $dateFormat;
 
     public function setOrder(int $order)
     {
@@ -65,9 +40,25 @@ class Card extends AbstractComponent
         $this->postForm = $postForm;
     }
 
+    /**
+     * @param \DateTimeZone $timezone
+     */
+    public function setTimezone(\DateTimeZone $timezone): void
+    {
+        $this->timezone = $timezone;
+    }
+
+    /**
+     * @param string $dateFormat
+     */
+    public function setDateFormat(string $dateFormat): void
+    {
+        $this->dateFormat = $dateFormat;
+    }
+
     public function __toString()
     {
-        return $this->parser->parse($this->loader->load($this->htmlTemplateName), [
+        return $this->parser->parse($this->template, [
             'order' => $this->order,
             'bbsUID' => $this->cardDTO->getBbsUID(),
             'cardUID' => $this->cardDTO->getCardUID(),
@@ -75,10 +66,10 @@ class Card extends AbstractComponent
             'title' => $this->cardDTO->getTitle(),
             'size' => $this->cardDTO->getSize() - 1,
             'openTime' => $this->cardDTO->getOpenDate()
-                ->setTimezone($this->dateTimeBuilder->getUserTimezone())
+                ->setTimezone($this->timezone)
                 ->format($this->dateFormat),
             'refreshTime' => $this->cardDTO->getRefreshDate()
-                ->setTimezone($this->dateTimeBuilder->getUserTimezone())
+                ->setTimezone($this->timezone)
                 ->format($this->dateFormat),
             'postList' => array_reduce($this->postList, function (string $carry, Post $post) {
                 return $carry . $post->__toString();
