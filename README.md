@@ -1,6 +1,30 @@
-# Tunacan
-Cardpost BBS for [Tunaground](http://tunaground.net).
-## License
+# Tunacan  
+Cardpost BBS for [Tunaground](http://tunaground.net).  
+
+## Requirements
+* PHP 7.1+
+
+## Quick start  
+<pre><code>git clone https://github.com/tunarider/cardpost.git
+cd cardpost
+composer install
+cd js
+npm install
+npm run build</code></pre>  
+
+### Apache HTTPD  
+<pre><code>DocumentRoot "/var/www/html/cardpost/public/"
+FallbackResource /index.php</code></pre>  
+
+### Nginx  
+<pre><code>server {
+    root /var/www/html/cardpost/public;
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+}</code></pre>
+
+## License  
 The MIT License (MIT)
 
 Copyright (c) 2018 Tunarider
