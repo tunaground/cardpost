@@ -5,7 +5,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Tunacan\Core\RequestHandlerInterface;
 use Tunacan\Route\RouterInterface;
-use Tunacan\Route\RouteInterface;
 use Tunacan\Util\PageResolver;
 
 class Dispatcher implements RequestHandlerInterface
@@ -48,10 +47,9 @@ class Dispatcher implements RequestHandlerInterface
                 $interceptor = $route->getInterceptor($this->container);
                 $interceptor->handle();
             }
-            $controller = $this->container->get($route->getControllerFqn());
-            $method = $route->getMethod();
+            $controller = $route->getController($this->container);
             $request->addUriArgumentsList($route->getArguments());
-            $page = $controller->$method();
+            $page = $controller->run();
             $response->send();
             echo $this->resolver->resolve($page, $response);
         }

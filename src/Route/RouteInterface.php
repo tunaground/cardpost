@@ -3,12 +3,11 @@ namespace Tunacan\Route;
 
 use Psr\Container\ContainerInterface;
 use Tunacan\Core\InterceptorInterface;
+use Tunacan\MVC\ControllerInterface;
 
 interface RouteInterface
 {
-    public function getControllerFqn(): string;
-
-    public function getMethod(): string;
+    public function getController(ContainerInterface $c): ControllerInterface;
 
     public function setArguments(array $args);
 

@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 use Tunacan\Http\Request;
 use Tunacan\Http\Response;
 
-class BaseController implements ControllerInterface
+abstract class BaseController implements ControllerInterface
 {
     protected $app;
     /** @var Request */

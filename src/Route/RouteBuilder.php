@@ -8,7 +8,7 @@ class RouteBuilder
         $route = new Route();
         $route->setPath($routeArray['path']);
         if (array_key_exists('controller', $routeArray)) {
-            $route->setControllerFqn($routeArray['controller']);
+            $route->setController($routeArray['controller']);
         }
         if (array_key_exists('method', $routeArray)) {
             $route->setMethod($routeArray['method']);

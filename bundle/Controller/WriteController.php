@@ -47,7 +47,7 @@ class WriteController extends BaseController
      */
     private $mgmtService;
 
-    public function main()
+    public function run(): string
     {
         if ($this->request->getPostParam('type') === 'card') {
             return $this->writeCard();

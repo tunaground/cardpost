@@ -26,7 +26,7 @@ class TraceController extends BaseController
      */
     private $uiService;
 
-    public function index()
+    public function run(): string
     {
         try {
             $this->response->addAttribute('card_section', $this->getCardSection());

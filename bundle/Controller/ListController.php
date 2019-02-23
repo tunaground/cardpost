@@ -20,7 +20,7 @@ class ListController extends BaseController
      */
     private $uiService;
 
-    public function index()
+    public function run(): string
     {
         try {
             $bbsUID = $this->request->getUriArguments('bbsUID');

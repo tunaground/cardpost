@@ -26,7 +26,7 @@ class IndexController extends BaseController
      */
     private $uiService;
 
-    public function index()
+    public function run(): string
     {
         try {
             $cardDTOList = $this->cardService->getCardListByBbsUID($this->request->getUriArguments('bbsUID'));

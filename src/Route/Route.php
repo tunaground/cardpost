@@ -1,14 +1,15 @@
 <?php
 namespace Tunacan\Route;
 
+use Psr\Container\ContainerInterface;
 use Tunacan\Http\Request;
 use Tunacan\Core\InterceptorInterface;
-use Psr\Container\ContainerInterface;
+use Tunacan\MVC\ControllerInterface;
 
 class Route implements RouteInterface
 {
     private $path;
-    private $controllerFqn;
+    private $controller;
     private $method;
     private $options;
     private $arguments;
@@ -34,17 +35,17 @@ class Route implements RouteInterface
     /**
      * @return string
      */
-    public function getControllerFqn(): string
+    public function getController(ContainerInterface $c): ControllerInterface
     {
-        return $this->controllerFqn;
+        return $c->get($this->controller);
     }
 
     /**
-     * @param string $controllerFqn
+     * @param string $controller
      */
-    public function setControllerFqn(string $controllerFqn = null): void
+    public function setController(string $controller = null): void
     {
-        $this->controllerFqn = $controllerFqn;
+        $this->controller = $controller;
     }
 
     /**
