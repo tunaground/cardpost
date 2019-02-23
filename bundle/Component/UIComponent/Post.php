@@ -62,13 +62,16 @@ class Post extends AbstractComponent
 
     private function getImageWithTag()
     {
-        $imageSrc = $this->imageDomain."/".rawurlencode($this->postDTO->getImage());
+        $imageEncodedSrc = $this->imageDomain."/".rawurlencode($this->postDTO->getImage());
+        $imageSrc = $this->imageDomain."/".$this->postDTO->getImage();
         $noImageSrc = $this->imageDomain."/no-image.png";
         if ($this->postDTO->getImage()) {
-            if ((@getimagesize($imageSrc) === false)) {
-                return "<img class='thumbnail' src='{$noImageSrc}'/>";
-            } else {
+            if ((@getimagesize($imageSrc) !== false)) {
                 return "<a href='{$imageSrc}'><img class='thumbnail' src='{$imageSrc}'/></a>";
+            } elseif ((@getimagesize($imageEncodedSrc) !== false)) {
+                return "<a href='{$imageEncodedSrc}'><img class='thumbnail' src='{$imageEncodedSrc}'/></a>";
+            } else {
+                return "<img class='thumbnail' src='{$noImageSrc}'/>";
             }
         } else {
             return '';
