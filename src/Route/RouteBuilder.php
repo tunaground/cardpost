@@ -19,6 +19,9 @@ class RouteBuilder
         if (array_key_exists('redirect', $routeArray)) {
             $route->setRedirect($routeArray['redirect']);
         }
+        if (array_key_exists('interceptor', $routeArray)) {
+            $route->setInterceptor($routeArray['interceptor']);
+        }
         return $route;
     }
 }

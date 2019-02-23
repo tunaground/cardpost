@@ -5,6 +5,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Tunacan\Core\RequestHandlerInterface;
 use Tunacan\Route\RouterInterface;
+use Tunacan\Route\RouteInterface;
 use Tunacan\Util\PageResolver;
 
 class Dispatcher implements RequestHandlerInterface
@@ -12,7 +13,7 @@ class Dispatcher implements RequestHandlerInterface
     /**
      * @var ContainerInterface
      */
-    private $delegateContainer;
+    private $container;
     /**
      * @var RouterInterface
      */
@@ -30,7 +31,7 @@ class Dispatcher implements RequestHandlerInterface
         PageResolver $resolver,
         LoggerInterface $logger = null
     ) {
-        $this->delegateContainer = $container;
+        $this->container = $container;
         $this->router = $router;
         $this->resolver = $resolver;
         $this->logger = $logger;
@@ -43,7 +44,11 @@ class Dispatcher implements RequestHandlerInterface
             header("Location: {$route->getRedirect()}");
             exit;
         } else {
-            $controller = $this->delegateContainer->get($route->getControllerFqn());
+            if ($route->hasInterceptor()) {
+                $interceptor = $route->getInterceptor($this->container);
+                $interceptor->handle();
+            }
+            $controller = $this->container->get($route->getControllerFqn());
             $method = $route->getMethod();
             $request->addUriArgumentsList($route->getArguments());
             $page = $controller->$method();

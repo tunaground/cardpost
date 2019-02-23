@@ -2,6 +2,8 @@
 namespace Tunacan\Route;
 
 use Tunacan\Http\Request;
+use Tunacan\Core\InterceptorInterface;
+use Psr\Container\ContainerInterface;
 
 class Route implements RouteInterface
 {
@@ -11,6 +13,7 @@ class Route implements RouteInterface
     private $options;
     private $arguments;
     private $redirect;
+    private $interceptor;
 
     /**
      * @return string
@@ -111,6 +114,22 @@ class Route implements RouteInterface
     public function setRedirect($redirect = null): void
     {
         $this->redirect = $redirect;
+    }
+
+    public function hasInterceptor(): bool
+    {
+        return is_callable($this->interceptor);
+    }
+
+    public function getInterceptor(ContainerInterface $c): InterceptorInterface
+    {
+        $callback = $this->interceptor;
+        return $callback($c);
+    }
+
+    public function setInterceptor(callable $interceptor): void
+    {
+        $this->interceptor = $interceptor;
     }
 
     public function match(Request $request)
